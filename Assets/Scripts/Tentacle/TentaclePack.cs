@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TentacleUnit : MonoBehaviour
+public class TentaclePack : MonoBehaviour
 {
 	//length of 0.5 
 	[SerializeField]

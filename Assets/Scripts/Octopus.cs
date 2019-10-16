@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Tentacle : MonoBehaviour
+public class Octopus : MonoBehaviour
 {
 
 	// Use this for initialization
