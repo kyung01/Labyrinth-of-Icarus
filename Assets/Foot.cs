@@ -69,13 +69,6 @@ public class Foot : MonoBehaviour
 
 
 	}
-	public void pullMe()
-	{
-	}
-	public void pushMe()
-	{
-
-	}
 	private void FixedUpdate()
 	{
 		phyiscsUpdate();
