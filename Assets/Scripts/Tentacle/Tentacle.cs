@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 public class Tentacle : MonoBehaviour
 {
-	List<TentacleBody> bodies = new List<TentacleBody>();
-	List<TentacleLip> lips = new List<TentacleLip>();
+	public List<TentacleBody> bodies = new List<TentacleBody>();
+	public List<TentacleLip> lips = new List<TentacleLip>();
 	// Use this for initialization
 	void Start()
 	{
@@ -21,11 +21,13 @@ public class Tentacle : MonoBehaviour
 	public void add(TentacleBody body)
 	{
 		body.transform.parent = this.transform;
+		bodies.Add(body);
 
 	}
 	public void add(TentacleLip lip)
 	{
 		lip.transform.parent = this.transform;
+		lips.Add(lip);
 
 	}
 }
