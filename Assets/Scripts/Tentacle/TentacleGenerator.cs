@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TentacleGenerator : MonoBehaviour
 {
+	/*
 	[SerializeField]
 	Tentacle PREFAB_TENTACLE;
 	[SerializeField]
@@ -12,6 +13,10 @@ public class TentacleGenerator : MonoBehaviour
 	TentacleLipLinker PREFAB_TETACLE_LIP_LINKER;
 	[SerializeField]
 	TentacleLip PREFAB_LIP;
+	
+	 * */
+	[SerializeField]
+	TentacleLink PREFAB_LINK;
 	private void Start()
 	{
 		generateTentacleLengthof(10);
@@ -22,7 +27,25 @@ public class TentacleGenerator : MonoBehaviour
 		tentacleAddedTo.add(unitToUnPackToAdd.bodySecond);
 		tentacleAddedTo.add(unitToUnPackToAdd.lip);
 	}
-	public Tentacle generateTentacleLengthof(int length)
+
+	public TentacleLink generateTentacleLengthof(int length)
+	{
+		TentacleLink firstLink = Instantiate(PREFAB_LINK);
+		firstLink.transform.position = this.transform.position;
+		TentacleLink previousLink = firstLink;
+		for (int i = 0; i < length-1; i++)
+		{
+			var newLink = Instantiate(PREFAB_LINK);
+			newLink.transform.position = this.transform.position;
+			newLink.before = previousLink;
+			previousLink.after = newLink;
+			previousLink = newLink;
+
+		}
+		return firstLink;
+	}
+	/*
+	public Tentacle kGenerateTentacleLengthof(int length)
 	{
 		Tentacle tentacle = Instantiate(PREFAB_TENTACLE);
 		TentaclePack packedUnit = null;
@@ -69,5 +92,6 @@ public class TentacleGenerator : MonoBehaviour
 		return tentacle;
 
 	}
+	 * */
 
 }

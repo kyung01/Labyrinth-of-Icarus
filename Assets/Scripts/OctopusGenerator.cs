@@ -18,6 +18,7 @@ public class OctopusGenerator : MonoBehaviour
 		Octopus octopus = Instantiate(PREFAB_OCTOPUS);
 		for(int i = 0; i < 3; i++)
 		{
+			/*
 
 			var tentacle = PREFAB_TENTACLE_GENERATOR.generateTentacleLengthof(5);
 			var firstTentacleBody = tentacle.bodies[0];
@@ -36,7 +37,8 @@ public class OctopusGenerator : MonoBehaviour
 			jointLimit.max = 90;
 			hingeJoint.limits = jointLimit;
 			hingeJoint.connectedBody = octopus.joints[i];
-
+			
+			 * */
 		}
 	}
 	// Update is called once per frame

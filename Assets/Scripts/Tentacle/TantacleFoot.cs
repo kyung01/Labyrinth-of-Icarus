@@ -40,6 +40,7 @@ public class TantacleFoot : MonoBehaviour
 		if(( point - joint.transform.position).magnitude > maximumLength)
 		{
 			//too far cannot reach
+			//Debug.Log("Cannot reach " + point + " from " + joint.transform.position);
 			return false;
 		}
 		return true;

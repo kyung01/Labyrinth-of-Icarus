@@ -54,7 +54,8 @@ public class TantacleMonster : MonoBehaviour
 		else if (a.transform.position.x > b.transform.position.x) return 1;
 		return 0;
 	}
-	int waitTIme = 50;
+	int waitTIme = 10;
+	int noMatchFoundCount = 0;
 	
 	// Update is called once per frame
 	void Update()
@@ -63,7 +64,18 @@ public class TantacleMonster : MonoBehaviour
 		{
 			return;
 		}
-		waitTIme = 50;
+		if(noMatchFoundCount > 10)
+		{
+			Debug.Log("Longer wait");
+			waitTIme = 50;
+			noMatchFoundCount = 0;
+			for (int i = 0; i<foots.Count; i++)
+			{
+				foots[i].deAttach();
+			}
+			return;
+		}
+		waitTIme = 10;
 		List<Vector2> eyeSightLines = new List<Vector2>();
 		//float radiance = Mathf.Atan2(-this.transform.up.y, -this.transform.up.x) - Mathf.PI * 0.5f;
 		for (int i = 0; i < 20; i++)
@@ -83,28 +95,49 @@ public class TantacleMonster : MonoBehaviour
 		//sorted lowest to highest
 		foots.Sort(sortMethod);
 		bool nofootmatcahFound = true;
-		
+		bool isAllFootsAttahced = true;
+		bool aFootWasDeAttached = false;
+		foreach(var foot in foots)
+		{
+			if (!foot.holding) isAllFootsAttahced = false;
+		}
+		if (isAllFootsAttahced)
+		{
+			for (int i = 0; i < foots.Count; i++)
+			{
+				if (!foots[i].holding) continue;
+				else
+				{
+					Debug.Log("deattachged");
+					foots[i].deAttach();
+					aFootWasDeAttached = true;
+					break;
+				}
+			}
+		}
 		//Debug.Log(availablePoints.Count + " , " + foots.Count);
 		for (int i = availablePoints.Count-1; i >=0; i--)
 		{
+			//Debug.Log("Testing Point " + availablePoints[i].point);
 			for(int j = 0; j <foots.Count ; j++)
 			{
 				if(!foots[j].holding&& foots[j].reach(availablePoints[i].point))
 				{
-					Debug.Log("Using " + i + "/" + availablePoints.Count + " with joint " + j);
+					//Debug.Log("Using " + i + "/" + availablePoints.Count + " with joint " + j);
 					nofootmatcahFound = false;
+					noMatchFoundCount++;
+					Debug.Log(noMatchFoundCount);
 					break;
 				}
+				
 			}
 			if (!nofootmatcahFound)
 			{
+				if(!aFootWasDeAttached)
+					noMatchFoundCount =0;
 				break;
 			}
 
-		}
-		if (nofootmatcahFound)
-		{
-			foots[0].deAttach();
 		}
 		float holdingFootsCount = 0;
 		for(int i = 0; i< foots.Count; i++)
