@@ -13,7 +13,7 @@ public class Eye
 }
 public class Slug : MonoBehaviour
 {
-	public Vector2 TARGET_POSITION = new Vector2(10, 0);
+	public Vector2 TARGET_POSITION = new Vector2(2, 0);
 	public List<Foot> foots;
 	// Start is called before the first frame update
 	Eye eye = new Eye();
@@ -31,60 +31,45 @@ public class Slug : MonoBehaviour
 	{
 		return (targetPosition - calculatedPosition).magnitude;
 	}
-	int hprGetFittingPath(List<RaycastHit2D> pathCandidate, Vector2 targetPosition, Vector2 legOrigin, float legMaxDistance)
+	int hprGetFittingPath(List<RaycastHit2D> pathCandidate, Vector2 legOrigin, float footMaxLimit)
 	{
 		//bool foundFittingPath = false;
 		int currentBestPath = -1;
+		float currentMinScore =  10000000;
+		for(int i = 0; i< foots.Count; i++)
+		{
+			if(foots[i].status == Foot.STATUS.ATTACHED)
+			{
+				currentMinScore = Mathf.Min(90009.0f, hprCalculateScore(foots[i].transform.position, TARGET_POSITION));
+			}
+		}
 		RaycastHit2D currentBestHit = pathCandidate[0];
 		for (int i = 0; i < pathCandidate.Count; i++)
 		{
-			//Debug.Log("Candiate " + i + " " + pathCandidate[i].point);
-			
-			//Debug.Log("PASS");
-			//compare who's better than
-			if (currentBestPath != -1)
+			if( (pathCandidate[i].point - legOrigin).magnitude >= footMaxLimit)
 			{
-				if ((currentBestHit.point - targetPosition).magnitude <
-					(pathCandidate[i].point - targetPosition).magnitude)
-				{
-					//Debug.Log("Keeping the current path");
-					//preiviously chosen current best bit is better result.
-					//do not change 
-				}
-				else
-				{
-					//Debug.Log("Found a beetter path");
-					if((currentBestHit.point - legOrigin ).magnitude < legMaxDistance)
-					{
-						Debug.Log("We thought "+(currentBestHit.point - legOrigin).magnitude);
-						currentBestPath = i;
-						currentBestHit = pathCandidate[i];
-
-					}
-				}
+				continue;
 			}
-			else
+			float socre = (pathCandidate[i].point - TARGET_POSITION).magnitude;
+			if(socre < currentMinScore)
 			{
-				if ((pathCandidate[i].point - legOrigin).magnitude < legMaxDistance)
-				{
-					currentBestPath = i;
-					currentBestHit = pathCandidate[i];
-				}
-				//Debug.Log("First ");
+				currentMinScore = socre;
+				currentBestPath = i;
 			}
 		}
+		Debug.Log("currentMinScore " + currentMinScore);
 		return currentBestPath;
 	}
-	
 
+	int falloutcounter = 100;
 	// Update is called once per frame
 	void Update()
 	{
 		List<Vector2> eyeSightLines = new List<Vector2>();
-		float radiance = Mathf.Atan2(-this.transform.up.y, -this.transform.up.x) - Mathf.PI * 0.5f;
-		for (int i = 0; i < 10; i++)
+		//float radiance = Mathf.Atan2(-this.transform.up.y, -this.transform.up.x) - Mathf.PI * 0.5f;
+		for (int i = 0; i < 20; i++)
 		{
-			float angle = radiance + Mathf.PI * (i / 10f);
+			float angle = 2*Mathf.PI * (i / 20.0f);
 			eyeSightLines.Add(new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)));
 		}
 		var lookForward = eye.getSights(this.transform.position, this.transform.right);
@@ -95,34 +80,41 @@ public class Slug : MonoBehaviour
 		foreach (var sight in eyeSightLines)
 		{
 			availablePoints.Add(eye.getSights(this.transform.position, sight));
+			//Debug.Log(sight);
 		}
 		bool isALLHandsBusy = true;
-		//Debug.Log("isALLHandsBusy" + isALLHandsBusy);
+		//attach foots
 		for (int i = 0; i < foots.Count; i++)
 		{
 			var foot = foots[i];
+			//Debug.Log("attaching " +foot);
 			if (!foot.IsAvailable) break; ;
 			isALLHandsBusy = false;
 			//a foot is availble to use 
-			int bestPlaceToPlaceFoot = hprGetFittingPath(availablePoints, TARGET_POSITION,new Vector2(foot.attachedBody.transform.position.x, foot.attachedBody.transform.position.y), foot.maximumLength);
+			int bestPlaceToPlaceFoot = hprGetFittingPath(availablePoints,new Vector2(foot.attachedBody.transform.position.x, foot.attachedBody.transform.position.y), foot.maximumLength);
 			if (bestPlaceToPlaceFoot == -1)
 			{
 				Debug.Log("Foot placement fail");
-				break; ;
+				continue;
 			}
-			Debug.Log("Chosen position " + availablePoints[bestPlaceToPlaceFoot].point);
+			//Debug.Log("Chosen position " + availablePoints[bestPlaceToPlaceFoot].point);
 			foot.attach(availablePoints[bestPlaceToPlaceFoot].transform, availablePoints[bestPlaceToPlaceFoot].point);
+			availablePoints.RemoveAt(bestPlaceToPlaceFoot);
 
 		}
-		if (isALLHandsBusy)
+		
+		if (falloutcounter-- <0&& isALLHandsBusy)
 		{
+			falloutcounter = 100;
+			//return;
+			//Debug.Log("deataching");
 			float minimumScore = -9999;
 			int selectedFoot = -1;
 			//calculate the least perofrming hand than unlock it
 			for (int i = 0; i < foots.Count; i++)
 			{
 				float tempScore = hprCalculateScore(foots[i].targetPositionToAttach, TARGET_POSITION);
-				if (tempScore < minimumScore)
+				if (tempScore > minimumScore)
 				{
 					selectedFoot = i;
 					minimumScore = tempScore;
@@ -134,12 +126,15 @@ public class Slug : MonoBehaviour
 			}
 			else
 			{
-				Debug.Log("Releasing a foot " + selectedFoot);
+				Debug.Log("Releasing a foot " + foots[selectedFoot]);
 				foots[selectedFoot].deAttach();
 			}
 			//scan the surrounding	
 			//use unused foots first 
 			//unlink lowest performing foor to locate towards better pefroming situations
+		}
+		else
+		{
 		}
 	}
 }

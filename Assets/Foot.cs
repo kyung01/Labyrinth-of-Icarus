@@ -25,16 +25,21 @@ public class Foot : MonoBehaviour
 
 	public void attach(Transform target, Vector2 position, float breakLimit = 1)
 	{
+		if (target == null)
+		{
+			Debug.Log("Attahing to null object ");
+			return;
+		}
 		if(((position - new Vector2(attachedBody.transform.position.x, attachedBody.transform.position.y)).magnitude > maximumLength) )
 		{
 			Debug.Log("invalid attach call refused as unreacable " + (position - new Vector2(attachedBody.transform.position.x, attachedBody.transform.position.y)).magnitude);
 			return;
 		}
-
 		status = STATUS.ATTACHING;
 		targettingObject = target;
 		targetPositionToAttach = position;
 
+		Debug.Log("Attached to " + targettingObject);
 	}
 
 	public void deAttach()
@@ -55,9 +60,10 @@ public class Foot : MonoBehaviour
 	{
 		switch (status) {
 			case STATUS.ATTACHED:
-				var dir = attachedBody.transform.position - this.transform.position;
+				//Debug.Log("FORCE");
+				var dir =  this.transform.position- attachedBody.transform.position;
 				dir.Normalize();
-				attachedRigidBody.AddForce(new Vector2(dir.x, dir.y) * -5 * Time.fixedDeltaTime, ForceMode2D.Impulse);
+				attachedRigidBody.AddForce(dir*Physics2D.gravity.magnitude * Time.deltaTime, ForceMode2D.Impulse);
 				break;
 		}
 
@@ -65,7 +71,6 @@ public class Foot : MonoBehaviour
 	}
 	public void pullMe()
 	{
-
 	}
 	public void pushMe()
 	{
@@ -74,22 +79,24 @@ public class Foot : MonoBehaviour
 	private void FixedUpdate()
 	{
 		phyiscsUpdate();
-		var distance = attachedBody.transform.position - this.transform.position  ;
+		var distance = targetPositionToAttach- attachedBody.transform.position  ;
+		//Debug.Log(distance);
 		var mag = distance.magnitude;
 		if(mag > maximumLength)
 		{
 			//foot cannot hold the object anymore
+			Debug.Log("CUT! " + mag + " , " + maximumLength);
 			deAttach();
 			var dir = distance.normalized;
-			this.transform.position = attachedBody.transform.position -dir * maximumLength;
+			this.transform.position = attachedBody.transform.position +dir * maximumLength;
 		}
 
 
 		switch (status) {
 			case STATUS.ATTACHING:
 				var dir = targetPositionToAttach - this.transform.position;
-				this.transform.position += dir.normalized * Time.deltaTime;
-				if((targetPositionToAttach - this.transform.position).magnitude < 0.01)
+				this.transform.position += dir.normalized * 3*Time.deltaTime;
+				if((targetPositionToAttach - this.transform.position).magnitude < 0.11)
 				{
 					status = STATUS.ATTACHED;
 				}
