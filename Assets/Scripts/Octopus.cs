@@ -12,6 +12,10 @@ public class Octopus : MonoBehaviour
 
 	}
 
+	private void FixedUpdate()
+	{
+		this.GetComponent<Rigidbody2D>().AddForce(Vector2.right * 10 * Time.deltaTime, ForceMode2D.Impulse);
+	}
 	// Update is called once per frame
 	void Update()
 	{

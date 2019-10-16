@@ -16,14 +16,13 @@ public class OctopusGenerator : MonoBehaviour
 	void Start()
 	{
 		Octopus octopus = Instantiate(PREFAB_OCTOPUS);
-		for(int i = 0; i < 8; i++)
+		for(int i = 0; i < 3; i++)
 		{
 
-			var tentacle = PREFAB_TENTACLE_GENERATOR.generateTentacleLengthof(3);
+			var tentacle = PREFAB_TENTACLE_GENERATOR.generateTentacleLengthof(5);
 			var firstTentacleBody = tentacle.bodies[0];
 			var joint = octopus.joints[i];
 
-			firstTentacleBody.transform.parent = joint.transform;
 			firstTentacleBody.transform.position = joint.transform.position;
 			firstTentacleBody.transform.rotation = joint.transform.rotation;
 
@@ -40,7 +39,6 @@ public class OctopusGenerator : MonoBehaviour
 
 		}
 	}
-
 	// Update is called once per frame
 	void Update()
 	{

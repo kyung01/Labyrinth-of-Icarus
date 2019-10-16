@@ -64,7 +64,7 @@ GameObject:
   - component: {fileID: 3005036427435447907}
   - component: {fileID: 3005036427435447906}
   - component: {fileID: 3005036427435447900}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,10 +161,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -243,7 +243,7 @@ GameObject:
   - component: {fileID: 3005036427592431481}
   - component: {fileID: 3005036427592431483}
   - component: {fileID: 3005036427592431476}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Body R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -350,10 +350,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 3005036428314495429}
   - component: {fileID: 3005036428314495428}
   - component: {fileID: 3005036428314495435}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Body L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,10 +491,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
