@@ -108,7 +108,7 @@ public class TantacleMonster : MonoBehaviour
 				if (!foots[i].holding) continue;
 				else
 				{
-					Debug.Log("deattachged");
+					//Debug.Log("deattachged");
 					foots[i].deAttach();
 					aFootWasDeAttached = true;
 					break;
@@ -121,12 +121,12 @@ public class TantacleMonster : MonoBehaviour
 			//Debug.Log("Testing Point " + availablePoints[i].point);
 			for(int j = 0; j <foots.Count ; j++)
 			{
-				if(!foots[j].holding&& foots[j].reach(availablePoints[i].point))
+				if(!foots[j].holding&& availablePoints[i].transform!= null && foots[j].reach(availablePoints[i].point))
 				{
-					//Debug.Log("Using " + i + "/" + availablePoints.Count + " with joint " + j);
+					//Debug.Log("Using " + i + "/" + availablePoints.Count + " with joint " + j + " at " + availablePoints[i].transform.name);
 					nofootmatcahFound = false;
 					noMatchFoundCount++;
-					Debug.Log(noMatchFoundCount);
+					//Debug.Log(noMatchFoundCount);
 					break;
 				}
 				
