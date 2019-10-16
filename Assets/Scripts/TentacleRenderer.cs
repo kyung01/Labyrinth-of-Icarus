@@ -20,7 +20,10 @@ public class TentacleRenderer : MonoBehaviour
 	}
 	private void Update()
 	{
-		for(int i = 0;  i< footChasers.Count; i++)
+		float hearthBeat = 2+Mathf.Abs(Mathf.Sin(Time.time *5 ) )*1;
+		spriteCenter.transform.localScale = new Vector3(hearthBeat, hearthBeat,1);
+		spriteCenter.transform.rotation = Quaternion.Euler(0, 0, Time.time*7);
+		for (int i = 0;  i< footChasers.Count; i++)
 		{
 			var foot = footChasers[i];
 			if (i >= footBrancheSprites.Count) break;

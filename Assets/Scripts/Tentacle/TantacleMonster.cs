@@ -40,18 +40,29 @@ public class TantacleMonster : MonoBehaviour
 	{
 		
 	}
+
+	Vector2 targetPosition = new Vector2(10000,0);
+
+	float getScore(Vector2 a)
+	{
+		return (targetPosition - a).sqrMagnitude;
+	}
+	float getScore(Vector3 a)
+	{
+		return getScore(new Vector2(a.x, a.y));
+	}
 	int sortMethod(RaycastHit2D a, RaycastHit2D b)
 	{
-		if (a.point.x < b.point.x) return -1;
-		else if (a.point.x > b.point.x) return 1;
+		if (getScore(a.point) < getScore(b.point)) return -1;
+		else if (getScore(a.point) > getScore(b.point)) return 1;
 		return 0;
 	}
 	int sortMethod(TantacleFoot a, TantacleFoot b)
 	{
 		if (a.holding && !b.holding) return -1;
 		if (b.holding && !a.holding) return 1;
-		if (a.transform.position.x < b.transform.position.x) return -1;
-		else if (a.transform.position.x > b.transform.position.x) return 1;
+		if (getScore(a.transform.position) < getScore(b.transform.position)) return -1;
+		else if (getScore(a.transform.position) > getScore(b.transform.position)) return 1;
 		return 0;
 	}
 	int waitTIme = 10;
@@ -64,16 +75,12 @@ public class TantacleMonster : MonoBehaviour
 		{
 			return;
 		}
-		if(noMatchFoundCount > 20)
+		if(noMatchFoundCount > 10)
 		{
-			Debug.Log("Longer wait");
-			waitTIme = 50;
 			noMatchFoundCount = 0;
-			for (int i = 0; i<foots.Count; i++)
-			{
-				foots[i].deAttach();
-			}
-			return;
+			targetPosition = new Vector2(Random.RandomRange(-10, 10), Random.RandomRange(-1, 1));
+
+
 		}
 		waitTIme = 10;
 		List<Vector2> eyeSightLines = new List<Vector2>();
