@@ -147,7 +147,7 @@ MonoBehaviour:
   joint: {fileID: 1761920760}
   maximumLength: 2
   pushPower: 1
-  holding: 1
+  holding: 0
 --- !u!212 &4380142
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -754,7 +754,7 @@ MonoBehaviour:
   joint: {fileID: 1761920760}
   maximumLength: 2
   pushPower: 1
-  holding: 1
+  holding: 0
 --- !u!212 &1219171198
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -850,16 +850,16 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 1
+  m_LinearDrag: 15
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!61 &1262602715
-BoxCollider2D:
+  m_Constraints: 4
+--- !u!58 &1262602715
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -872,18 +872,8 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.5
 --- !u!212 &1262602716
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -941,7 +931,7 @@ Transform:
   m_GameObject: {fileID: 1262602713}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1.15, z: -0.021873258}
-  m_LocalScale: {x: 0.63873, y: 0.63873, z: 0.29501024}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 1579459436}
   - {fileID: 1761920760}
@@ -1345,7 +1335,7 @@ MonoBehaviour:
   joint: {fileID: 987770955}
   maximumLength: 2
   pushPower: 1
-  holding: 1
+  holding: 0
 --- !u!212 &2031227785
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1443,7 +1433,7 @@ MonoBehaviour:
   joint: {fileID: 1931235277}
   maximumLength: 2
   pushPower: 1
-  holding: 1
+  holding: 0
 --- !u!212 &2123581910
 SpriteRenderer:
   m_ObjectHideFlags: 0
