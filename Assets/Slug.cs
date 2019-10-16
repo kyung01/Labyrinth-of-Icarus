@@ -105,7 +105,7 @@ public class Slug : MonoBehaviour
 		
 		if (falloutcounter-- <0&& isALLHandsBusy)
 		{
-			falloutcounter = 100;
+			falloutcounter = 1000;
 			//return;
 			//Debug.Log("deataching");
 			float minimumScore = -9999;
