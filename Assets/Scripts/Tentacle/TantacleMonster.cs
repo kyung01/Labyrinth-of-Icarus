@@ -64,7 +64,7 @@ public class TantacleMonster : MonoBehaviour
 		{
 			return;
 		}
-		if(noMatchFoundCount > 10)
+		if(noMatchFoundCount > 20)
 		{
 			Debug.Log("Longer wait");
 			waitTIme = 50;
