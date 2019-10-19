@@ -200,8 +200,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 382986415}
+  - component: {fileID: 382986416}
   m_Layer: 0
-  m_Name: Main Menu
+  m_Name: Main Menu Page
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -229,6 +230,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &382986416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382986414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02d699fbf3abc31418f0791ed9ab102c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &438045165
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,7 +905,7 @@ GameObject:
   - component: {fileID: 871415651}
   - component: {fileID: 871415650}
   m_Layer: 0
-  m_Name: Cover
+  m_Name: Cover Page
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1330,7 +1343,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -1625,7 +1638,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99e592ad4458e884fa3f7609b8822400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pageCover: {fileID: 871415650}
+  coverPage: {fileID: 871415650}
+  mainMenuPage: {fileID: 382986416}
 --- !u!4 &1827559202
 Transform:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cover : MonoBehaviour
+public class CoverPage : UIPage
 {
 	[SerializeField]
 	GameObject feather;

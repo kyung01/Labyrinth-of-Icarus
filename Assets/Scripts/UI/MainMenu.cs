@@ -6,7 +6,9 @@ public class MainMenu : MonoBehaviour
 {
 	enum MAINMENU_STATE { COVER,MAINMENU }
 	[SerializeField]
-	Cover pageCover;
+	CoverPage coverPage;
+	[SerializeField]
+	MainMenuPage mainMenuPage;
 
 	MAINMENU_STATE state = MAINMENU_STATE.COVER;
 	// Start is called before the first frame update
@@ -16,8 +18,12 @@ public class MainMenu : MonoBehaviour
 	}
 	void Start()
     {
-        
-    }
+		coverPage.Off();
+		mainMenuPage.Off();
+		Debug.Log("START");
+		UpdateState(state);
+
+	}
 
     // Update is called once per frame
     void Update()
@@ -36,17 +42,20 @@ public class MainMenu : MonoBehaviour
 		switch (state)
 		{
 			case MAINMENU_STATE.COVER:
-				pageCover.gameObject.SetActive(false);
+				coverPage.Off();
 				break;
 			case MAINMENU_STATE.MAINMENU:
+				mainMenuPage.Off();
 				break;
 		}
 		this.state = newState;
 		switch (state)
 		{
 			case MAINMENU_STATE.COVER:
+				coverPage.On();
 				break;
 			case MAINMENU_STATE.MAINMENU:
+				mainMenuPage.On();
 				break;
 		}
 
