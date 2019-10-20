@@ -12,7 +12,8 @@ public class Player : MonoBehaviour
 	[SerializeField]
 	Rigidbody2D body;
 	[SerializeField]
-	float movementAcceleration;
+	float movementAcceleration,airControlAceeleration;
+
 	[SerializeField]
 	float jumpAceeleration;
 	Vector2 playerMovingDirection;
@@ -23,7 +24,30 @@ public class Player : MonoBehaviour
     }
 	private void FixedUpdate()
 	{
-		body.AddForce(playerMovingDirection*movementAcceleration * Time.fixedDeltaTime, ForceMode2D.Impulse);
+		var test = Physics2D.Raycast(this.transform.position, Vector2.down, 1.8f, LayerMask.GetMask("World"));
+
+		if(test.transform!= null)
+		{
+
+			body.AddForce(playerMovingDirection * movementAcceleration * Time.fixedDeltaTime, ForceMode2D.Impulse);
+		}
+		else
+		{
+			body.AddForce(playerMovingDirection * airControlAceeleration * Time.fixedDeltaTime, ForceMode2D.Impulse);
+
+		}
+		if (playerMovingDirection.x == 0 && playerMovingDirection.y == 0)
+		{
+			//player is trying to stop
+			//stop if there is a ground underneath me
+			Debug.Log(test.transform);
+			if (test.transform != null)
+			{
+				Vector2 velocyThatCanBeCancelled = new Vector2(body.velocity.x, 0);
+				body.AddForce(-velocyThatCanBeCancelled * 1/(0.15f) * Time.fixedDeltaTime, ForceMode2D.Impulse);
+
+			}
+		}
 	}
 
 	// Update is called once per frame
@@ -37,7 +61,7 @@ public class Player : MonoBehaviour
 		playerMovingDirection.Normalize();
 		if (Input.GetKeyDown(KeyCode.W))
 		{
-			body.AddForce(Vector2.up * jumpAceeleration);
+			body.AddForce(Vector2.up * jumpAceeleration,ForceMode2D.Impulse );
 		}
 		//Debug.Log(playerMovingDirection);
 

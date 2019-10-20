@@ -4,6 +4,8 @@ using System.Collections;
 public class PlayerRenderer : MonoBehaviour
 {
 	[SerializeField]
+	Rigidbody2D physicalBody;
+	[SerializeField]
 	float legMovingSpeed;
 	[SerializeField]
 	Transform leftLegJoint, rightLegJoint;
@@ -35,14 +37,32 @@ public class PlayerRenderer : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		var groundHittingTest = Physics2D.Raycast(leftLegJoint.transform.position, Vector2.down, 1.8f, LayerMask.GetMask("World"));
+
+		if (!legAnimationFlip)
+		{
+			legMovingSpeed = 20;
+		}
+		else
+		{
+
+			legMovingSpeed = Mathf.Min(30, Mathf.Max(1, physicalBody.velocity.magnitude * 5));
+		}
+
 		float LEG_MAX_EXTENDABLE_LENGTH = 1.5f;
 
-		if (legAnimationFlip||(previousPosition - this.transform.position).magnitude > 0.0001f)
+		if (legAnimationFlip || (previousPosition - this.transform.position).magnitude > 0.0001f)
 		{
 			animationDurationElapsedTime += Time.deltaTime;
 		}
 
-		if (animationDurationElapsedTime > animationDurationMax)
+		//if player is in the air then set the animation to "straight"'
+		if(groundHittingTest.transform == null)
+		{
+			legAnimationFlip = false;
+
+		}
+		else if (animationDurationElapsedTime > animationDurationMax)
 		{
 			legAnimationFlip = !legAnimationFlip;
 			animationDurationElapsedTime = 0;
