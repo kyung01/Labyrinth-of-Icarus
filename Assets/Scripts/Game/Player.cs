@@ -15,8 +15,17 @@ public class Player : MonoBehaviour
 	float movementAcceleration,airControlAceeleration;
 
 	[SerializeField]
+	float jumpInitialAceeleration;
+	[SerializeField]
 	float jumpAceeleration;
+	[SerializeField]
+	float jumpDuration;
+	[SerializeField]
+	float jumpRemainingTime;
+	[SerializeField]
+	float fallAceeleration;
 	Vector2 playerMovingDirection;
+
 	// Start is called before the first frame update
 	void Start()
     {
@@ -25,15 +34,17 @@ public class Player : MonoBehaviour
 	private void FixedUpdate()
 	{
 		var test = Physics2D.Raycast(this.transform.position, Vector2.down, 1.8f, LayerMask.GetMask("World"));
+		bool isOnTheGround = test.transform != null;
 
-		if(test.transform!= null)
+		if(isOnTheGround)
 		{
-
 			body.AddForce(playerMovingDirection * movementAcceleration * Time.fixedDeltaTime, ForceMode2D.Impulse);
+			body.drag = 1;
 		}
 		else
 		{
 			body.AddForce(playerMovingDirection * airControlAceeleration * Time.fixedDeltaTime, ForceMode2D.Impulse);
+
 
 		}
 		if (playerMovingDirection.x == 0 && playerMovingDirection.y == 0)
@@ -46,6 +57,20 @@ public class Player : MonoBehaviour
 				Vector2 velocyThatCanBeCancelled = new Vector2(body.velocity.x, 0);
 				body.AddForce(-velocyThatCanBeCancelled * 1/(0.15f) * Time.fixedDeltaTime, ForceMode2D.Impulse);
 
+			}
+		}
+		if (jumpRemainingTime > 0)
+		{
+			jumpRemainingTime -= Time.fixedDeltaTime;
+
+			body.AddForce(Vector2.up * jumpAceeleration*Time.fixedDeltaTime, ForceMode2D.Impulse);
+		}
+		else
+		{
+			if (!isOnTheGround)
+			{
+
+				body.AddForce(Vector2.down * fallAceeleration * Time.fixedDeltaTime, ForceMode2D.Impulse);
 			}
 		}
 	}
@@ -61,7 +86,8 @@ public class Player : MonoBehaviour
 		playerMovingDirection.Normalize();
 		if (Input.GetKeyDown(KeyCode.W))
 		{
-			body.AddForce(Vector2.up * jumpAceeleration,ForceMode2D.Impulse );
+			jumpRemainingTime = jumpDuration;
+			body.AddForce(Vector2.up * jumpInitialAceeleration, ForceMode2D.Impulse);
 		}
 		//Debug.Log(playerMovingDirection);
 

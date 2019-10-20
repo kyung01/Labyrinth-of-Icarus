@@ -375,7 +375,7 @@ Transform:
   m_GameObject: {fileID: 866193482}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.25, y: -1, z: 0}
-  m_LocalScale: {x: 0.4, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 1, z: 1}
   m_Children:
   - {fileID: 16515592}
   m_Father: {fileID: 1885886358}
@@ -531,9 +531,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 975152183}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25, y: 2.5, z: 0}
+  m_LocalPosition: {x: 25, y: 3.82, z: 0}
   m_LocalScale: {x: 1, y: 3, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1885886358}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -550,9 +551,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 30
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 70
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -571,8 +572,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 975152187}
-  movementAcceleration: 1000
-  jumpAceeleration: 15000
+  movementAcceleration: 30
+  airControlAceeleration: 30
+  jumpInitialAceeleration: 30
+  jumpAceeleration: 1
+  jumpDuration: 0.5
+  jumpRemainingTime: 0
+  fallAceeleration: 150
 --- !u!1 &1046129558
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,7 +605,7 @@ Transform:
   m_GameObject: {fileID: 1046129558}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.25, y: -1, z: 0}
-  m_LocalScale: {x: 0.4, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 1, z: 1}
   m_Children:
   - {fileID: 1404261662}
   m_Father: {fileID: 1885886358}
@@ -1038,16 +1044,16 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885886357}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 25, y: 2.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 0.33333334, z: 1}
   m_Children:
   - {fileID: 283268234}
   - {fileID: 54603257}
   - {fileID: 1714338370}
   - {fileID: 866193483}
   - {fileID: 1046129559}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 975152186}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1885886359
 MonoBehaviour:
@@ -1061,9 +1067,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3bd2b0b54b37a84cb6dac516698548e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  legMovingSpeed: 1
-  leftLegtJoint: {fileID: 54603257}
+  physicalBody: {fileID: 975152187}
+  legMovingSpeed: 20
+  leftLegJoint: {fileID: 54603257}
   rightLegJoint: {fileID: 1714338370}
+  leftFoot: {fileID: 16515592}
+  rightFoot: {fileID: 1404261662}
   leftLeg: {fileID: 866193483}
   rightLeg: {fileID: 1046129559}
 --- !u!1 &2031840343
