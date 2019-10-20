@@ -9,7 +9,7 @@ using System.Collections.Generic;
 public class Bullet : Entity
 {
 	[SerializeField]
-	List<OWNER_TYPE> targetOnwerTypes = new List<OWNER_TYPE>();
+	List<OWNER_TYPE> targetOwnerTypes = new List<OWNER_TYPE>();
 	[SerializeField]
 	List<ENTITY_TYPE> targetEntityTypes = new List<ENTITY_TYPE>();
 	// Use this for initialization
@@ -27,20 +27,28 @@ public class Bullet : Entity
 	{
 		bool isRightOwnerType = false;
 		bool isRightEntityType = false;
-		foreach (var owner in targetOnwerTypes)
-			if (entity.ownerType == owner)
+		
+		foreach (var targetOwner in targetOwnerTypes) { 
+			if (entity.ownerType == targetOwner)
 			{
 				isRightOwnerType = true;
 				break;
 			}
-		foreach (var owner in targetEntityTypes)
-			if (entity.type == owner)
+		}
+		if (isRightOwnerType)
+		{
+			foreach (var targetType in targetEntityTypes)
 			{
-				isRightEntityType = true;
-				break;
+				if (entity.type == targetType)
+				{
+					isRightEntityType = true;
+					break;
+				}
 			}
+		}
+		
 
-		return isRightEntityType && isRightEntityType;
+		return isRightOwnerType && isRightEntityType;
 	}
 	public virtual void OnHitTarget(Entity entity)
 	{
@@ -52,6 +60,7 @@ public class Bullet : Entity
 		if (entity == null) return;
 		if (!isMyTarget(entity)) return;
 		//target found
+		Debug.Log(entity);
 		OnHitTarget(entity);
 
 		

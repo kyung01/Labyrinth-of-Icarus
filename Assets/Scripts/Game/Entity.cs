@@ -28,10 +28,15 @@ public class Entity : MonoBehaviour
 	public void kill()
 	{
 		isAlive = false;
+		setActive(false);
 	}
 	public void changeHpBy(float amount)
 	{
 		health += amount;
+		if(health <= 0)
+		{
+			kill();
+		}
 	}
 	public virtual void setActive(bool value)
 	{
