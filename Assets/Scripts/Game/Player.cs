@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
 		{
 			//player is trying to stop
 			//stop if there is a ground underneath me
-			Debug.Log(test.transform);
+			//Debug.Log(test.transform);
 			if (test.transform != null)
 			{
 				Vector2 velocyThatCanBeCancelled = new Vector2(body.velocity.x, 0);

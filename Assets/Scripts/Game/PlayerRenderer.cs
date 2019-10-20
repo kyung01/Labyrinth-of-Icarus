@@ -31,43 +31,56 @@ public class PlayerRenderer : MonoBehaviour
 		return (jointPosition - footPosition).magnitude > maxLegLength;
 	}
 
-	bool legAnimationFlip = false;
+	bool playFlippedLegAnimation = false;
 	float animationDurationMax = 0.10f;
 	float animationDurationElapsedTime = 0;
 	// Update is called once per frame
 	void Update()
 	{
-		var groundHittingTest = Physics2D.Raycast(leftLegJoint.transform.position, Vector2.down, 1.8f, LayerMask.GetMask("World"));
-
-		if (!legAnimationFlip)
+		var groundHittingTest = Physics2D.Raycast(this.transform.position, Vector2.down, 1.8f, LayerMask.GetMask("World"));
+		bool isOnTheGround = groundHittingTest.transform != null;
+		float velocityAlongSurface = Mathf.Abs(Vector2.Dot(new Vector2(groundHittingTest.normal.y, -groundHittingTest.normal.x), physicalBody.velocity));
+		bool isPlayerMoving = velocityAlongSurface > 0.1f;
+		Debug.Log("is on the ground " + isOnTheGround);
+		//always unwind the flipped animation as fast as I can 
+		if (!playFlippedLegAnimation)
 		{
 			legMovingSpeed = 20;
 		}
 		else
 		{
-
-			legMovingSpeed = Mathf.Min(30, Mathf.Max(1, physicalBody.velocity.magnitude * 5));
+			if (isOnTheGround)
+			{
+				Debug.Log("Velocity along the surface " + velocityAlongSurface);
+				legMovingSpeed = Mathf.Min(30, Mathf.Max(1, velocityAlongSurface * 5));
+			}
 		}
 
 		float LEG_MAX_EXTENDABLE_LENGTH = 1.5f;
 
-		if (legAnimationFlip || (previousPosition - this.transform.position).magnitude > 0.0001f)
+		if (playFlippedLegAnimation || isPlayerMoving)
 		{
-			animationDurationElapsedTime += Time.deltaTime;
+			float aimmationSpeed =Mathf.Min(2,  velocityAlongSurface*0.2f);
+			if (playFlippedLegAnimation) aimmationSpeed = Mathf.Max(aimmationSpeed, 1.0f);
+			animationDurationElapsedTime += Time.deltaTime* aimmationSpeed;
 		}
 
 		//if player is in the air then set the animation to "straight"'
-		if(groundHittingTest.transform == null)
+		if(!isOnTheGround)
 		{
-			legAnimationFlip = false;
+			playFlippedLegAnimation = false;
 
 		}
 		else if (animationDurationElapsedTime > animationDurationMax)
 		{
-			legAnimationFlip = !legAnimationFlip;
+			playFlippedLegAnimation = !playFlippedLegAnimation;
 			animationDurationElapsedTime = 0;
 		}
-		if (!legAnimationFlip)
+
+
+
+		//done calculating stuff
+		if (!playFlippedLegAnimation)
 		{
 			//normal leg movement of standing
 			var leftLegHittingTest = Physics2D.Raycast(leftLegJoint.transform.position, Vector2.down, 10.0f, LayerMask.GetMask("World"));
