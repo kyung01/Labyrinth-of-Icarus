@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
 
 	Dictionary<KeyCode, Vector2> dirPlayerInput = new Dictionary<KeyCode, Vector2>() {

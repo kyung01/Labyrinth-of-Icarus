@@ -41,7 +41,7 @@ public class PlayerRenderer : MonoBehaviour
 		bool isOnTheGround = groundHittingTest.transform != null;
 		float velocityAlongSurface = Mathf.Abs(Vector2.Dot(new Vector2(groundHittingTest.normal.y, -groundHittingTest.normal.x), physicalBody.velocity));
 		bool isPlayerMoving = velocityAlongSurface > 0.1f;
-		Debug.Log("is on the ground " + isOnTheGround);
+		//Debug.Log("is on the ground " + isOnTheGround);
 		//always unwind the flipped animation as fast as I can 
 		if (!playFlippedLegAnimation)
 		{
@@ -51,7 +51,7 @@ public class PlayerRenderer : MonoBehaviour
 		{
 			if (isOnTheGround)
 			{
-				Debug.Log("Velocity along the surface " + velocityAlongSurface);
+				//Debug.Log("Velocity along the surface " + velocityAlongSurface);
 				legMovingSpeed = Mathf.Min(30, Mathf.Max(1, velocityAlongSurface * 2));
 			}
 		}
