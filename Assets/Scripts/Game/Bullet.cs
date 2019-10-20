@@ -60,7 +60,6 @@ public class Bullet : Entity
 		if (entity == null) return;
 		if (!isMyTarget(entity)) return;
 		//target found
-		Debug.Log(entity);
 		OnHitTarget(entity);
 
 		

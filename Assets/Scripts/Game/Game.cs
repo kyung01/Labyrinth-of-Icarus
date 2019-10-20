@@ -44,11 +44,6 @@ public class Game : MonoBehaviour
 			playerFireWeapon();
 		}
 	}
-	float hprGetLookAtAngle(Vector3 origin, Vector3 target)
-	{
-		var dir = (target - origin).normalized;
-		return Mathf.Atan2(dir.y, dir.x)*(180.0f/ Mathf.PI);
-	}
 	void playerFireWeapon()
 	{
 		if (timeRemainingToFireBullet > 0) return;
@@ -58,9 +53,9 @@ public class Game : MonoBehaviour
 		playerBulletIndex = (playerBulletIndex + 1) % playerBullets.Count;
 		bullet.transform.position = weaponFiringPosition.position;
 		Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		bullet.transform.localRotation = Quaternion.Euler(0,0, hprGetLookAtAngle(bullet.transform.position, mousePosition));
+		bullet.transform.LookAt2D(mousePosition);
 		bullet.setActive(true);
 		bullet.rigidBody.AddForce(new Vector2(mousePosition.x - bullet.transform.position.x, mousePosition.y - bullet.transform.position.y).normalized * weaponFiringForce, ForceMode2D.Impulse);
-		bullet.rigidBody.AddTorque(Random.RandomRange(weaponFiringTorqueMin, weaponFiringTorqueMax),ForceMode2D.Impulse);
+		bullet.rigidBody.AddTorque(Random.Range(weaponFiringTorqueMin, weaponFiringTorqueMax),ForceMode2D.Impulse);
 	}
 }
