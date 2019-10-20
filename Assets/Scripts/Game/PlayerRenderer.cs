@@ -45,18 +45,18 @@ public class PlayerRenderer : MonoBehaviour
 		//always unwind the flipped animation as fast as I can 
 		if (!playFlippedLegAnimation)
 		{
-			legMovingSpeed = 20;
+			legMovingSpeed = 10;
 		}
 		else
 		{
 			if (isOnTheGround)
 			{
 				Debug.Log("Velocity along the surface " + velocityAlongSurface);
-				legMovingSpeed = Mathf.Min(30, Mathf.Max(1, velocityAlongSurface * 5));
+				legMovingSpeed = Mathf.Min(30, Mathf.Max(1, velocityAlongSurface * 2));
 			}
 		}
 
-		float LEG_MAX_EXTENDABLE_LENGTH = 1.5f;
+		float LEG_MAX_EXTENDABLE_LENGTH = 1.2f;
 
 		if (playFlippedLegAnimation || isPlayerMoving)
 		{
@@ -128,13 +128,18 @@ public class PlayerRenderer : MonoBehaviour
 	void updateLeg(Vector3 jointPosition, float legMaxLength, Vector3 newFootLocation, float legMovingSpeed, ref Vector3 footPosition)
 	{
 		var dirMove = newFootLocation - footPosition;
-		footPosition += dirMove * legMovingSpeed * Time.deltaTime;
+		footPosition += (dirMove).normalized * Mathf.Min(dirMove.magnitude, legMovingSpeed * Time.deltaTime);
 
 		var dis = footPosition - jointPosition;
 		float mag = dis.magnitude;
+		
 		if (mag > legMaxLength)
 		{
 			footPosition = jointPosition + dis.normalized * legMaxLength;
+		}
+		if (footPosition.y > jointPosition.y-0.3f)
+		{
+			footPosition = new Vector3(footPosition.x, jointPosition.y-0.3f, footPosition.z);
 		}
 	}
 }
