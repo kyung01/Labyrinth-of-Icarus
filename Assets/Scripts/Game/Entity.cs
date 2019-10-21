@@ -17,8 +17,23 @@ public class Entity : MonoBehaviour
 	public bool IsAlive
 	{
 		get { return isAlive; }
+		set
+		{
+			this.isAlive = value;
+			if (value)
+			{
+				setActive(true);
+			}
+			else
+			{
+				setActive(false);
+			}
+		}
 	}
-
+	public void respawn()
+	{
+		IsAlive = true;
+	}
 	// Use this for initialization
 	void Start()
 	{

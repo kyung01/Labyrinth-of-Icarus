@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerBullet: {fileID: 3357991362998451039, guid: cf6f36a0e1efa3e4582b3a36283d8e33,
     type: 3}
+  seed: {fileID: 3779422138418758569, guid: 90066bb9ada8ce644b434ba9db5064ba, type: 3}
+  tree: {fileID: 392020368503137204, guid: 944474dc7d898c94994ce723c732e0f2, type: 3}

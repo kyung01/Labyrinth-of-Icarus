@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 392020368503137204}
   - component: {fileID: 1295196305133088252}
   - component: {fileID: 7010027200497030215}
+  - component: {fileID: 8946406927505408820}
   m_Layer: 9
   m_Name: Tree
   m_TagString: Untagged
@@ -45,9 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f3c178fd4e8374087507f76655e94b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerType: 0
+  ownerType: 1
   type: 0
-  health: 0
+  health: 10
   isAlive: 1
 --- !u!212 &1295196305133088252
 SpriteRenderer:
@@ -118,3 +119,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &8946406927505408820
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8946406927505408819}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
