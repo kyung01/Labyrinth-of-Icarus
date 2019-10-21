@@ -77,6 +77,7 @@ public class Game : MonoBehaviour
 
 	EntitySmartList<SimpleBullet> bulletList = new EntitySmartList<SimpleBullet>();
 	EntitySmartList<Seed> seedList = new EntitySmartList<Seed>();
+	EntitySmartList<Vein> treeList = new EntitySmartList<Vein>();
 	// Use this for initialization
 	void Start()
 	{
@@ -90,10 +91,28 @@ public class Game : MonoBehaviour
 		for (int i = 0; i < 10; i++)
 		{
 			var seed = Instantiate(prefabBank.seed);
+			seed.evntBloom = hdlSeedBloom;
 			seedList.addEntity(seed);
 			seed.kill();
 
 		}
+		for (int i = 0; i < 10; i++)
+		{
+			var tree = Instantiate(prefabBank.tree);
+			treeList.addEntity(tree);
+			tree.kill();
+
+		}
+	}
+	void hdlSeedBloom(Seed seed)
+	{
+		//kill the seed first
+		seed.kill();
+		var newTree = treeList.getNextDeadEntity();
+		newTree.transform.position = seed.transform.position;
+		newTree.respawn();
+
+
 	}
 
 	// Update is called once per frame
@@ -131,7 +150,7 @@ public class Game : MonoBehaviour
 		Seed[] seeds = { seed_1 , seed_2, seed_3};
 		for(int i = 0; i < 3; i++)
 		{
-			seeds[i].transform.position = new Vector3(WORLD_WIDTH / 4.0f * (1 + i), (WORLD_HEIGHT-100 ), 0);
+			seeds[i].transform.position = new Vector3(WORLD_WIDTH / 4.0f * (1 + i), (WORLD_HEIGHT-1 ), 0);
 		}
 		
 

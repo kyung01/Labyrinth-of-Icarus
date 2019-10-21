@@ -9,7 +9,7 @@ public class PrefabBank : ScriptableObject
 	[SerializeField]
 	public Seed seed;
 	[SerializeField]
-	public Tree tree;
+	public Vein tree;
 	// Use this for initialization
 	void Start()
 	{

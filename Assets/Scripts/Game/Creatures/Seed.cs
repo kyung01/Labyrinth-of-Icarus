@@ -35,4 +35,11 @@ public class Seed : Entity
 		if(evntBloom != null)
 			evntBloom(this);
 	}
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.gameObject.name != "Ground") return;
+		//came in contact with the ground
+		bloom();
+		
+	}
 }

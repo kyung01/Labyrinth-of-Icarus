@@ -30,7 +30,7 @@ public class Entity : MonoBehaviour
 			}
 		}
 	}
-	public void respawn()
+	public virtual void respawn()
 	{
 		IsAlive = true;
 	}
