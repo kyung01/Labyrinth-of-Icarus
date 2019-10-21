@@ -13,6 +13,8 @@ public class Entity : MonoBehaviour
 	float health;
 	[SerializeField]
 	bool isAlive = true;
+	[SerializeField]
+	public Rigidbody2D rigidbody;
 
 	public bool IsAlive
 	{
@@ -37,7 +39,7 @@ public class Entity : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-
+		rigidbody = GetComponent<Rigidbody2D>();
 	}
 
 	// Update is called once per frame

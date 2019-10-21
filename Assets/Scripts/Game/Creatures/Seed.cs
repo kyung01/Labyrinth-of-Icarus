@@ -37,7 +37,12 @@ public class Seed : Entity
 	}
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (collision.gameObject.name != "Ground") return;
+
+		var objectName = collision.gameObject.name;
+
+		if (objectName.Equals("Ground")|| objectName.Equals("Wall Left" ) || objectName.Equals("Wall Right")
+			|| objectName.Equals("Ceiling"))
+		
 		//came in contact with the ground
 		bloom();
 		

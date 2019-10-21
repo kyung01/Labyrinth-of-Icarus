@@ -44,7 +44,7 @@ public class Game : MonoBehaviour
 {
 	static readonly float WORLD_WIDTH = 50;
 	static readonly float WORLD_HEIGHT = 30;
-	static readonly float LAND_HEIGHT = 10;
+	static readonly float GROUND_HEIGHT = 10;
 	enum GAME_STATE {INITIAL, PLAYING,COMPLETED };
 
 	GAME_STATE state = GAME_STATE.INITIAL;
@@ -77,7 +77,7 @@ public class Game : MonoBehaviour
 
 	EntitySmartList<SimpleBullet> bulletList = new EntitySmartList<SimpleBullet>();
 	EntitySmartList<Seed> seedList = new EntitySmartList<Seed>();
-	EntitySmartList<Vein> treeList = new EntitySmartList<Vein>();
+	EntitySmartList<Vein> veinList = new EntitySmartList<Vein>();
 	// Use this for initialization
 	void Start()
 	{
@@ -88,7 +88,7 @@ public class Game : MonoBehaviour
 			bullet.kill();
 
 		}
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 30; i++)
 		{
 			var seed = Instantiate(prefabBank.seed);
 			seed.evntBloom = hdlSeedBloom;
@@ -96,21 +96,23 @@ public class Game : MonoBehaviour
 			seed.kill();
 
 		}
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 30; i++)
 		{
-			var tree = Instantiate(prefabBank.tree);
-			treeList.addEntity(tree);
-			tree.kill();
+			var vain = Instantiate(prefabBank.Vein);
+			veinList.addEntity(vain);
+			vain.kill();
 
 		}
 	}
 	void hdlSeedBloom(Seed seed)
 	{
+		//Debug.Log("BLOOM");
 		//kill the seed first
 		seed.kill();
-		var newTree = treeList.getNextDeadEntity();
-		newTree.transform.position = seed.transform.position;
-		newTree.respawn();
+		var newVein = veinList.getNextDeadEntity();
+		newVein.transform.position = seed.transform.position;
+		newVein.respawn();
+		newVein.transform.rotation = seed.transform.rotation;
 
 
 	}
@@ -141,16 +143,18 @@ public class Game : MonoBehaviour
 	void loadLevel00()
 	{
 		//three seeds
-		var seed_1 = seedList.getNextDeadEntity();
-		var seed_2 = seedList.getNextDeadEntity();
-		var seed_3 = seedList.getNextDeadEntity();
-		seed_1.respawn();
-		seed_2.respawn();
-		seed_3.respawn();
-		Seed[] seeds = { seed_1 , seed_2, seed_3};
-		for(int i = 0; i < 3; i++)
+		float seedNumber = 20;
+		List<Seed> seeds = new List<Seed>();
+		for (int i = 0; i < seedNumber; i++)
 		{
-			seeds[i].transform.position = new Vector3(WORLD_WIDTH / 4.0f * (1 + i), (WORLD_HEIGHT-1 ), 0);
+			var seed = seedList.getNextDeadEntity();
+			if (seed == null) return;
+			seeds.Add(seed);
+			seed.respawn();
+
+			seed.transform.position = new Vector3(WORLD_WIDTH /(seedNumber+1)* (1 + i), GROUND_HEIGHT+0.5f*(WORLD_HEIGHT - GROUND_HEIGHT), 0);
+			seed.rigidbody.AddTorque(Random.Range(-10, 10));
+			seed.rigidbody.AddForce(new Vector2(Random.Range(-300, 300), Random.Range(-300,300)));
 		}
 		
 

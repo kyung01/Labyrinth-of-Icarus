@@ -17,4 +17,8 @@ public static class ExtensionMethods
 	{
 		return new Vector2(v.x, v.y);
 	}
+	public static Vector3 toVec3(this Vector2 v)
+	{
+		return new Vector3(v.x, v.y, 0);
+	}
 }
