@@ -143,7 +143,7 @@ public class Game : MonoBehaviour
 	void loadLevel00()
 	{
 		//three seeds
-		float seedNumber = 20;
+		float seedNumber = 0;
 		List<Seed> seeds = new List<Seed>();
 		for (int i = 0; i < seedNumber; i++)
 		{
