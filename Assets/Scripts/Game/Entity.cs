@@ -14,6 +14,11 @@ public class Entity : MonoBehaviour
 	[SerializeField]
 	bool isAlive = true;
 
+	public bool IsAlive
+	{
+		get { return isAlive; }
+	}
+
 	// Use this for initialization
 	void Start()
 	{

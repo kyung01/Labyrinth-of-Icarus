@@ -6,6 +6,10 @@ public class PrefabBank : ScriptableObject
 {
 	[SerializeField]
 	public SimpleBullet playerBullet;
+	[SerializeField]
+	public Seed seed;
+	[SerializeField]
+	public Tree tree;
 	// Use this for initialization
 	void Start()
 	{
