@@ -12,6 +12,9 @@ public class Player : Entity
 	[SerializeField]
 	Rigidbody2D body;
 	[SerializeField]
+	Transform weapon;
+
+	[SerializeField]
 	float movementAcceleration,airControlAceeleration;
 
 	[SerializeField]
@@ -90,6 +93,7 @@ public class Player : Entity
 			body.AddForce(Vector2.up * jumpInitialAceeleration, ForceMode2D.Impulse);
 		}
 		//Debug.Log(playerMovingDirection);
+		weapon.transform.LookAt2D(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
 	}
 }
