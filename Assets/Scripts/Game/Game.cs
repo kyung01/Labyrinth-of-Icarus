@@ -165,14 +165,14 @@ public class Game : MonoBehaviour
 	{
 		//three seeds
 		float tumorNumber = 3;
-		float seedNumber = 3;
-		for (int i = 0; i < seedNumber; i++)
+		float seedNumber = 10;
+		for (int i = 0; i < tumorNumber; i++)
 		{
 			var tumor = tumorCoreList.getNextDeadEntity();
 			if (tumor == null) return;
 			tumor.respawn();
 
-			tumor.transform.position = new Vector3(WORLD_WIDTH / (seedNumber + 1) * (1 + i), GROUND_HEIGHT + 0.9f * (WORLD_HEIGHT - GROUND_HEIGHT), 0);
+			tumor.transform.position = new Vector3(WORLD_WIDTH / (tumorNumber + 1) * (1 + i), GROUND_HEIGHT + 0.9f * (WORLD_HEIGHT - GROUND_HEIGHT), 0);
 			tumor.rigidbody.AddTorque(Random.Range(-10, 10));
 			tumor.rigidbody.AddForce(new Vector2(Random.Range(-300, 300), Random.Range(-300, 300)));
 		}

@@ -19,7 +19,7 @@ public class Vein : Entity
 	float timeElapsedForSearchingInterval;
 	public List<Vector2> extendedRelativePositions = new List<Vector2>();
 
-	float isReachedWorldCount = 0;
+	bool isReachedWorld = false;
 	float isReachedWorldCountPower = 1;
     // Start is called before the first frame update
     void Start()
@@ -35,11 +35,9 @@ public class Vein : Entity
 		timeElapsedForSearchingInterval -= Time.deltaTime;
 		if (timeElapsedForSearchingInterval > 0) return;
 
-		if (isReachedWorldCount > 0 && extendedRelativePositions.Count > 0)
+		if (isReachedWorld)
 		{
 			//I have already reached the world
-			isReachedWorldCount--;
-			extendedRelativePositions.RemoveAt(extendedRelativePositions.Count - 1);
 			return;
 		}
 
@@ -66,17 +64,12 @@ public class Vein : Entity
 		Vector2 extendedLength;
 		if (didHitAnyTarget)
 		{
-			if (isReachedWorldCount>0 && extendedRelativePositions.Count>0)
-			{
-				//I have already reached the world
-			}
-			isReachedWorldCount += isReachedWorldCountPower;
+			isReachedWorld = true;
 			extendedLength = testResult.point - lastBranchPosition;
 			//Debug.Log("hit the world");
 		}
 		else
 		{
-			isReachedWorldCount = Mathf.Max(0, isReachedWorldCount- isReachedWorldCountPower);
 			extendedLength = dirBranching * nextBranchMaxLength;
 			//Debug.Log("Not hit the world");
 		}
