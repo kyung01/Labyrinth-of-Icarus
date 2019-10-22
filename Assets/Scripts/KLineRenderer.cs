@@ -34,18 +34,18 @@ public class KLineRenderer : MonoBehaviour
 		Gradient colorGradient = lineRenderer.colorGradient;
 		var widthCurve = lineRenderer.widthCurve;
 		//colorGradient.colorKeys[1].time = ratio;
-		Debug.Log("ANIMATION CYCLE #"+ animationCycleIndex);
-		Color greyRed = new Color(0.2f, 0.2f, 0.5f);
+		//Debug.Log("ANIMATION CYCLE #"+ animationCycleIndex);
+		Color greyRed = new Color(0.2f, 0.2f, 0.3f);
 		Color red = new Color(1.0f, 0, 0);
-		float width = 0.5f;
+		float width = 0.7f;
 		float minimumHeight = 0.3f;
 		if (animationCycleIndex == 0)
 		{
 			timeElapsedToStart += Time.deltaTime;
 			float ratio = Mathf.Min(1, timeElapsedToStart / timeNeededToStart);
-			Debug.Log("RATIO " + ratio);
+			//Debug.Log("RATIO " + ratio);
 			colorGradient.colorKeys = new GradientColorKey[] {  new GradientColorKey(new Color(ratio,0,0),0), new GradientColorKey(greyRed, ratio* 0.5f) };
-			widthCurve.keys = new Keyframe[] { new Keyframe(0.0f, ratio* width), new Keyframe(ratio*0.5f, 0),new Keyframe(1, 0) };
+			widthCurve.keys = new Keyframe[] { new Keyframe(0.0f, minimumHeight + ratio * width), new Keyframe(ratio*0.5f, minimumHeight ),new Keyframe(1, minimumHeight ) };
 			if (timeElapsedToStart > timeNeededToStart)
 			{
 				animationCycleIndex = 1;
@@ -58,7 +58,7 @@ public class KLineRenderer : MonoBehaviour
 			timeElapsedReachingEnd += Time.deltaTime;
 			float ratio = Mathf.Min(1, timeElapsedReachingEnd / timeNeededToReachEnd);
 			colorGradient.colorKeys = new GradientColorKey[] {  new GradientColorKey(greyRed, Mathf.Max(ratio - 0.5f, 0)), new GradientColorKey(Color.red, ratio), new GradientColorKey(greyRed, Mathf.Min(ratio + 0.5f, 1)) };
-			widthCurve.keys = new Keyframe[] { new Keyframe(Mathf.Max(ratio - 0.5f, 0), 0), new Keyframe(ratio, width), new Keyframe(Mathf.Min(ratio+0.5f,1), 0) };
+			widthCurve.keys = new Keyframe[] { new Keyframe(Mathf.Max(ratio - 0.5f, 0), minimumHeight), new Keyframe(ratio, minimumHeight+width), new Keyframe(Mathf.Min(ratio+0.5f,1), minimumHeight) };
 			if(timeElapsedReachingEnd > timeNeededToReachEnd)
 			{
 				animationCycleIndex = 2;
@@ -71,7 +71,7 @@ public class KLineRenderer : MonoBehaviour
 			timeElapsedFinishingAnimation += Time.deltaTime;
 			float ratio = Mathf.Min(1, timeElapsedFinishingAnimation / timeNeededToFinish);
 			colorGradient.colorKeys = new GradientColorKey[] { new GradientColorKey(greyRed, 0.5f + 0.5f* ratio), new GradientColorKey(new Color(1.0f-ratio,0,0) , 1) };
-			widthCurve.keys = new Keyframe[] { new Keyframe(0.5f + 0.5f * ratio, 0), new Keyframe(1, width*(1.0f -ratio) ) };
+			widthCurve.keys = new Keyframe[] { new Keyframe(0.5f + 0.5f * ratio, minimumHeight), new Keyframe(1, minimumHeight+width * (1.0f -ratio) ) };
 			if (timeElapsedFinishingAnimation > timeNeededToFinish)
 			{
 				animationCycleIndex = 0;

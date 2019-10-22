@@ -54,9 +54,23 @@ public class Bullet : Entity
 	{
 
 	}
+	Entity getEntity(GameObject obj)
+	{
+		if (obj == null) return null;
+		if (obj.gameObject.name == "Collider") return getEntity(obj.transform.parent.gameObject);
+		return obj.GetComponent<Entity>();
+	}
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		var entity = collision.gameObject.GetComponent<Entity>();
+		Entity entity;
+		if(collision.gameObject.name == "Collider")
+		{
+			entity = getEntity(collision.gameObject);
+		}
+		else
+		{
+			entity = collision.gameObject.GetComponent<Entity>();
+		}
 		if (entity == null) return;
 		if (!isMyTarget(entity)) return;
 		//target found

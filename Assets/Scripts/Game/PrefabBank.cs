@@ -10,7 +10,25 @@ public class PrefabBank : ScriptableObject
 	public Seed seed;
 	[SerializeField]
 	public Vein Vein;
+	[SerializeField]
+	public TumorCore tumorCore;
+	[SerializeField]
+	public Tumor tumor;
 	// Use this for initialization
+	public T get<T>() where T:Entity
+	{
+		if (typeof(T) == typeof(SimpleBullet))
+		{
+			return playerBullet as T;
+
+		}
+		if (typeof(T) == typeof(Tumor))
+		{
+			return tumor as T;
+
+		}
+		return null;
+	}
 	void Start()
 	{
 

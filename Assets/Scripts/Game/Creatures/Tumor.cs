@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TumorBroodmother : Entity	
+public class Tumor : MonoBehaviour
 {
 
 	// Use this for initialization

@@ -2,31 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class EntitySmartList<T> where T:Entity
-{
-	List<T> list = new List<T>();
-	int currentIndex = 0;
-
-	public void addEntity(T entity)
-	{
-		list.Add(entity);
-	}
-	T getNextEntity()
-	{
-		T entity = list[currentIndex];
-		currentIndex = (currentIndex + 1) % list.Count;
-		return entity;
-	}
-	public T getNextDeadEntity()
-	{
-		for(int i = 0; i < list.Count; i++)
-		{
-			var entity = getNextEntity();
-			if (!entity.IsAlive) return entity;
-		}
-		return null;
-	}
-}
 public class GameLevel {
 
 	public static void LoadLevel00()
@@ -78,16 +53,23 @@ public class Game : MonoBehaviour
 	EntitySmartList<SimpleBullet> bulletList = new EntitySmartList<SimpleBullet>();
 	EntitySmartList<Seed> seedList = new EntitySmartList<Seed>();
 	EntitySmartList<Vein> veinList = new EntitySmartList<Vein>();
+	EntitySmartList<TumorCore> tumorCoreList = new EntitySmartList<TumorCore>();
 	// Use this for initialization
-	void Start()
+	void instantiate<T>(EntitySmartList<T> list, int count) where T:Entity
 	{
+
 		for (int i = 0; i < 30; i++)
 		{
-			var bullet = Instantiate(prefabBank.playerBullet);
-			bulletList.addEntity(bullet);
-			bullet.kill();
+			var entity = Instantiate(prefabBank.get<T>());
+			list.addEntity(entity);
+			entity.kill();
 
 		}
+	}
+	void Start()
+	{
+		instantiate<SimpleBullet>(bulletList,30);
+			
 		for (int i = 0; i < 30; i++)
 		{
 			var seed = Instantiate(prefabBank.seed);
@@ -101,7 +83,13 @@ public class Game : MonoBehaviour
 			var vain = Instantiate(prefabBank.Vein);
 			veinList.addEntity(vain);
 			vain.kill();
+		}
 
+		for (int i = 0; i < 30; i++)
+		{
+			var tumorCore = Instantiate(prefabBank.Vein);
+			veinList.addEntity(tumorCore);
+			tumorCore.kill();
 		}
 	}
 	void hdlSeedBloom(Seed seed)
@@ -143,7 +131,7 @@ public class Game : MonoBehaviour
 	void loadLevel00()
 	{
 		//three seeds
-		float seedNumber = 10;
+		float seedNumber = 3;
 		List<Seed> seeds = new List<Seed>();
 		for (int i = 0; i < seedNumber; i++)
 		{
