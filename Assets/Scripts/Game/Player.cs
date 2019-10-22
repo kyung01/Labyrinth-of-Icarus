@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class Player : Entity
 {
-
+	static Player playerEntity;
+	public static Vector3 GetPlayerPosition()
+	{
+		if(playerEntity== null)
+		{
+			return Vector3.zero;
+		}
+		return playerEntity.transform.position;
+	}
 	Dictionary<KeyCode, Vector2> dirPlayerInput = new Dictionary<KeyCode, Vector2>() {
 		{ KeyCode.D, Vector2.right },{ KeyCode.A, Vector2.left }
 	};
@@ -32,7 +40,7 @@ public class Player : Entity
 	// Start is called before the first frame update
 	void Start()
     {
-        
+		playerEntity = this;
     }
 	private void FixedUpdate()
 	{

@@ -97,6 +97,7 @@ public class Game : MonoBehaviour
 		newVein.transform.rotation = seed.transform.rotation;
 
 
+
 	}
 	void hdlFinishedGrowing(TumorCore core)
 	{
@@ -128,6 +129,11 @@ public class Game : MonoBehaviour
 			tumor.transform.localPosition = relativeSpawnPositions[i];
 			tumor.transform.parent = null;
 			tumor.respawn();
+
+			var dirForce = (tumor.transform.position - core.transform.position).normalized;
+			tumor.rigidbody.AddTorque(Random.Range(-10, 10), ForceMode2D.Impulse);
+			tumor.rigidbody.AddForce(dirForce * 15, ForceMode2D.Impulse);
+
 		}
 		core.transform.localScale = coreScale;
 	}

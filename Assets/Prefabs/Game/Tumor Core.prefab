@@ -183,7 +183,7 @@ MonoBehaviour:
   health: 10
   isAlive: 1
   rigidbody: {fileID: 7138279816480643538}
-  growingSpeed: 0.2
+  growingSpeed: 0.1
 --- !u!50 &7138279816480643538
 Rigidbody2D:
   serializedVersion: 4
