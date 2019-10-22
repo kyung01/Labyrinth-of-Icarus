@@ -37,13 +37,8 @@ public class Seed : Entity
 	}
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-
-		var objectName = collision.gameObject.name;
-
-		if (objectName.Equals("Ground") || 
-			objectName.Equals("Wall Left") || 
-			objectName.Equals("Wall Right")
-			|| objectName.Equals("Ceiling"))
+		
+		if (collision.gameObject.tag.Equals(Tags.World))
 		{
 			var rayCast = Physics2D.Raycast(this.transform.position, (collision.transform.position - this.transform.position).normalized, 100, LayerMask.GetMask("World"));
 			//Debug.Log(rayCast.transform);

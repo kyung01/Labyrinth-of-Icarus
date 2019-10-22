@@ -5,6 +5,23 @@ using UnityEngine;
 public class Player : Entity
 {
 	static Player playerEntity;
+	/// <summary>
+	/// Used by camera and what matters to player's perspective
+	/// </summary>
+	/// <returns></returns>
+	public static Vector3 GetPlayerTruePosition()
+	{
+		if (playerEntity == null)
+		{
+			return Vector3.zero;
+		}
+		return playerEntity.transform.position;
+	}
+	/// <summary>
+	/// This method is used by enemies.
+	/// Illusion skills can be used to confuse enemies.
+	/// </summary>
+	/// <returns></returns>
 	public static Vector3 GetPlayerPosition()
 	{
 		if(playerEntity== null)
