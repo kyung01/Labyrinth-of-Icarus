@@ -8,6 +8,8 @@ using UnityEngine;
 /// </summary>
 public class CameraDirector : MonoBehaviour
 {
+	public static CameraDirector self;
+	public enum CameraDirectorState {NORMAL,LOCKED,CUSTOM }
 	[SerializeField]
 	float MAXIMUM_DISTANCE;
 	[SerializeField]
@@ -16,8 +18,15 @@ public class CameraDirector : MonoBehaviour
 	float IDEAL_VERTICAL_INDENT;
 	[SerializeField]
 	float CAMERA_FOLLOWUP_SPEED;
-    // Start is called before the first frame update
-    void Start()
+
+	CameraDirectorState state = CameraDirectorState.NORMAL;
+
+	private void Awake()
+	{
+		self = this;
+	}
+	// Start is called before the first frame update
+	void Start()
     {
         
     }
@@ -43,5 +52,9 @@ public class CameraDirector : MonoBehaviour
 			//Debug.Log("Normal was " + disBetween.normalized);
 			//Debug.Log("Distance between is " + (idealCameraPosition - this.transform.position).magnitude);
 		}
+	}
+	public void lockPosition(Vector3 origin, float maximumTravelDistance)
+	{
+
 	}
 }
