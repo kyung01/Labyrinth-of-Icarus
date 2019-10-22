@@ -44,8 +44,11 @@ public class Player : Entity
     }
 	private void FixedUpdate()
 	{
-		var test = Physics2D.Raycast(this.transform.position, Vector2.down, 1.8f, LayerMask.GetMask("World"));
-		bool isOnTheGround = test.transform != null;
+		float PLAYER_SCALE = 0.45f;
+		var testMiddle = Physics2D.Raycast(this.transform.position, Vector2.down, 1.8f, LayerMask.GetMask("World"));
+		var testRight = Physics2D.Raycast(this.transform.position + this.transform.right* PLAYER_SCALE * 0.5f, Vector2.down, 1.8f, LayerMask.GetMask("World"));
+		var testLeft = Physics2D.Raycast(this.transform.position - this.transform.right * PLAYER_SCALE * 0.5f, Vector2.down, 1.8f, LayerMask.GetMask("World"));
+		bool isOnTheGround = testMiddle.transform != null || testRight.transform != null || testLeft.transform!= null ;
 
 		if(isOnTheGround)
 		{
@@ -63,7 +66,7 @@ public class Player : Entity
 			//player is trying to stop
 			//stop if there is a ground underneath me
 			//Debug.Log(test.transform);
-			if (test.transform != null)
+			if (testMiddle.transform != null)
 			{
 				Vector2 velocyThatCanBeCancelled = new Vector2(body.velocity.x, 0);
 				body.AddForce(-velocyThatCanBeCancelled * 1/(0.15f) * Time.fixedDeltaTime, ForceMode2D.Impulse);

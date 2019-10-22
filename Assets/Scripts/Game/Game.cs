@@ -55,6 +55,7 @@ public class Game : MonoBehaviour
 	EntitySmartList<Vein> veinList = new EntitySmartList<Vein>();
 	EntitySmartList<Tumor> tumorList = new EntitySmartList<Tumor>();
 	EntitySmartList<TumorCore> tumorCoreList = new EntitySmartList<TumorCore>();
+	EntitySmartList<Flower> flowerList = new EntitySmartList<Flower>();
 	// Use this for initialization
 	void instantiate<T>(EntitySmartList<T> list, int count) where T:Entity
 	{
@@ -67,13 +68,24 @@ public class Game : MonoBehaviour
 
 		}
 	}
+	void instantiate<T>(EntitySmartList<T> list, T instance, int count) where T:Entity
+	{
+		for (int i = 0; i < count; i++)
+		{
+			var entity = Instantiate(instance);
+			list.addEntity(entity);
+			entity.kill();
+
+		}
+	}
 	void Start()
 	{
-		instantiate<SimpleBullet>(bulletList, 30);
-		instantiate<Seed>(seedList, 30);
-		instantiate<Vein>(veinList, 30);
-		instantiate<Tumor>(tumorList, 30);
-		instantiate<TumorCore>(tumorCoreList, 30);
+		instantiate<SimpleBullet>(bulletList,prefabBank.simpleBullet,  30);
+		instantiate<Seed>(seedList, prefabBank.seed, 30);
+		instantiate<Vein>(veinList, prefabBank.vein, 30);
+		instantiate<Tumor>(tumorList, prefabBank.tumor, 30);
+		instantiate<TumorCore>(tumorCoreList, prefabBank.tumorCore, 30);
+		instantiate<Flower>(flowerList, prefabBank.flower, 30);
 		for (int i = 0; i < seedList.Count; i++)
 		{
 			var seed = seedList.getNextEntity();
@@ -84,14 +96,41 @@ public class Game : MonoBehaviour
 			var tumorCore = tumorCoreList.getNextEntity();
 			tumorCore.evntFinishedGrowing = hdlFinishedGrowing;
 		}
+		for (int i = 0; i < flowerList.Count; i++)
+		{
+			var flower = flowerList.getNextEntity();
+			flower.evntBloom = hdlFlowerBloom;
+		}
 
 	}
 	void hdlSeedBloom(Seed seed)
 	{
-		//Debug.Log("BLOOM");
-		//kill the seed first
+		var flower = flowerList.getNextDeadEntity();
+		if (flower == null) return;
+		flower.transform.position = seed.transform.position;
+		flower.transform.rotation = seed.transform.rotation;
+		flower.respawn();
+	}
+	void hdlFlowerBloom(Flower flower)
+	{
+		float SEED_THROWING_FORCE = 30;
+		List<float> angles = new List<float>() { flower.transform.rotation.eulerAngles.z, flower.transform.rotation.eulerAngles.z + Random.Range(-45, 0), flower.transform.rotation.eulerAngles.z + Random.Range(0, 45) };
+		for (int i = 0; i < angles.Count; i++)
+		{
+			//Debug.Log("Angle at " + veinAngles[i]);
+
+			var seed = seedList.getNextDeadEntity();
+			if (seed == null) break;
+			seed.transform.position = flower.transform.position;
+			seed.transform.rotation = Quaternion.Euler(0, 0, angles[i]);
+			seed.respawn();
+			seed.rigidbody.AddForce(seed.transform.right * SEED_THROWING_FORCE, ForceMode2D.Impulse);
+		}
+	}
+	void hdlSeedBloomVeins(Seed seed)
+	{
 		List<float> veinAngles = new List<float>() { seed.transform.rotation.eulerAngles.z, seed.transform.rotation.eulerAngles.z + Random.Range(-45, 0), seed.transform.rotation.eulerAngles.z + Random.Range(0, 45) };
-		for(int i = 0; i < veinAngles.Count; i++)
+		for (int i = 0; i < veinAngles.Count; i++)
 		{
 			//Debug.Log("Angle at " + veinAngles[i]);
 
@@ -100,9 +139,6 @@ public class Game : MonoBehaviour
 			newVein.transform.rotation = Quaternion.Euler(0, 0, veinAngles[i]);
 			newVein.respawn();
 		}
-
-
-
 	}
 	void hdlFinishedGrowing(TumorCore core)
 	{
@@ -129,6 +165,7 @@ public class Game : MonoBehaviour
 		for (int i = 0; i < relativeSpawnPositions.Count; i++)
 		{
 			var tumor = tumorList.getNextDeadEntity();
+			if (tumor == null) break;
 			tumor.transform.parent = core.transform;
 			tumor.transform.localRotation = Quaternion.identity;
 			tumor.transform.localPosition = relativeSpawnPositions[i];

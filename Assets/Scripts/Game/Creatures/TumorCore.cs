@@ -16,7 +16,11 @@ public class TumorCore : Entity
 	{
 
 	}
-
+	public override void respawn()
+	{
+		base.respawn();
+		growingPercentage = 0;
+	}
 	// Update is called once per frame
 	void Update()
 	{

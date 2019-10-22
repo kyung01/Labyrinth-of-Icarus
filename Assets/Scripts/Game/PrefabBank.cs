@@ -5,21 +5,23 @@ using System.Collections;
 public class PrefabBank : ScriptableObject
 {
 	[SerializeField]
-	public SimpleBullet playerBullet;
+	public SimpleBullet simpleBullet;
 	[SerializeField]
 	public Seed seed;
 	[SerializeField]
-	public Vein Vein;
+	public Vein vein;
 	[SerializeField]
 	public TumorCore tumorCore;
 	[SerializeField]
 	public Tumor tumor;
+	[SerializeField]
+	public Flower flower;
 	// Use this for initialization
 	public T get<T>() where T:Entity
 	{
 		if (typeof(T) == typeof(SimpleBullet))
 		{
-			return playerBullet as T;
+			return simpleBullet as T;
 
 		}
 		if (typeof(T) == typeof(Seed))
@@ -34,7 +36,7 @@ public class PrefabBank : ScriptableObject
 		}
 		if (typeof(T) == typeof(Vein))
 		{
-			return Vein as T;
+			return vein as T;
 
 		}
 		if (typeof(T) == typeof(Tumor))

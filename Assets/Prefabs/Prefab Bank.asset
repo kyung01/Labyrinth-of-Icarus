@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ebfdb1e718c9c4fb12baade64994e3, type: 3}
   m_Name: Prefab Bank
   m_EditorClassIdentifier: 
-  playerBullet: {fileID: 3357991362998451039, guid: cf6f36a0e1efa3e4582b3a36283d8e33,
+  simpleBullet: {fileID: 3357991362998451039, guid: cf6f36a0e1efa3e4582b3a36283d8e33,
     type: 3}
   seed: {fileID: 3779422138418758569, guid: 90066bb9ada8ce644b434ba9db5064ba, type: 3}
-  Vein: {fileID: 7387952094086655672, guid: 944474dc7d898c94994ce723c732e0f2, type: 3}
+  vein: {fileID: 7387952094086655672, guid: 944474dc7d898c94994ce723c732e0f2, type: 3}
   tumorCore: {fileID: 7138279816480643537, guid: 1db75e5f21d0dd34ca112816215e72e9,
     type: 3}
   tumor: {fileID: 4093668537759336041, guid: 1c18365e570e23643af9b5d44b9ccf55, type: 3}
+  flower: {fileID: 677539475552250012, guid: 457ee9737c6cc2740a06c5d9950874ac, type: 3}

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1974730703}
   - component: {fileID: 1974730704}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 7433586576332912320}
   - component: {fileID: 6374770649994595171}
   m_Layer: 9
-  m_Name: Player Bullet
+  m_Name: Simple Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

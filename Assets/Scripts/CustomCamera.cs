@@ -7,6 +7,8 @@ public class CustomCamera : MonoBehaviour
 {
 	[SerializeField]
 	float width;
+	[SerializeField]
+	float minimumHeight;
 	Camera camera;
 	private void Awake()
 	{
@@ -29,7 +31,7 @@ public class CustomCamera : MonoBehaviour
 	void adjustCameraSize()
 	{
 		float orthographicSize = ((float)Screen.height / Screen.width) * (width/2.0f);
-		if (orthographicSize < 15.0f) camera.orthographicSize = 15.0f;
+		if (orthographicSize < minimumHeight) camera.orthographicSize = minimumHeight;
 		else camera.orthographicSize = orthographicSize;
 	}
 
