@@ -28,10 +28,10 @@ public class Vein : Entity
 
 
 	}
-
+	
     // Update is called once per frame
     void Update()
-    {
+	{
 		timeElapsedForSearchingInterval -= Time.deltaTime;
 		if (timeElapsedForSearchingInterval > 0) return;
 
@@ -44,22 +44,25 @@ public class Vein : Entity
 		//Debug.Log("veing activated");
 		timeElapsedForSearchingInterval = nextBranchSearchInterval;
 		Vector2 dirBranchingForward;
-		if(extendedRelativePositions.Count == 0){
-			dirBranchingForward = this.transform.up;
-		}else {
+		if (extendedRelativePositions.Count == 0)
+		{
+			dirBranchingForward = this.transform.right;
+		}
+		else
+		{
 			dirBranchingForward = extendedRelativePositions[0].normalized;
 		}
 		float branchingForwardAngle = Mathf.Atan2(dirBranchingForward.y, dirBranchingForward.x);
 		//Debug.Log(dirBranchingForward + " " +branchingForwardAngle * (180f/Mathf.PI));
-		float upwardAngle = branchingForwardAngle 
-			+Random.Range(-0.3f*Mathf.PI ,0.3f*Mathf.PI);
+		float upwardAngle = branchingForwardAngle
+			+ Random.Range(-0.3f * Mathf.PI, 0.3f * Mathf.PI);
 		Vector2 dirBranching = new Vector2(Mathf.Cos(upwardAngle), Mathf.Sin(upwardAngle));
 		//Debug.Log(dirBranching + " " + (upwardAngle * (180f/Mathf.PI))) ;	
 
 
-		Vector2 lastBranchPosition = this.transform.position; ;
+		Vector2 lastBranchPosition = this.transform.position;
 		foreach (var position in extendedRelativePositions) lastBranchPosition += position;
-		var testResult =Physics2D.Raycast(lastBranchPosition, dirBranching, nextBranchMaxLength, LayerMask.GetMask("World"));
+		var testResult = Physics2D.Raycast(lastBranchPosition, dirBranching, nextBranchMaxLength, LayerMask.GetMask("World"));
 		bool didHitAnyTarget = testResult.transform != null;
 		Vector2 extendedLength;
 		if (didHitAnyTarget)
@@ -73,13 +76,72 @@ public class Vein : Entity
 			extendedLength = dirBranching * nextBranchMaxLength;
 			//Debug.Log("Not hit the world");
 		}
-		if(extendedLength.magnitude > MINIMUM_BRACNH_LENGTH)
+		if (extendedLength.magnitude > MINIMUM_BRACNH_LENGTH)
 			extendedRelativePositions.Add(extendedLength);
 		else
 		{
 		}
-			//Debug.Log("Extneindg length " + extendedLength);
-			//as soon as tree comes in alive, it seeks possible ways to brach upward until it hits a wall
+	}
+
+	void KUpdate(
+		Vector3 thisTransformPosition,
+		Vector3 thisTransformForward,
+		List<Vector2> extendedRelativePositions,
+		float nextBranchMaxLength,
+		ref bool isReachedWorld,
+		ref float nextBranchSearchInterval,
+		ref float timeElapsedForSearchingInterval
+		)
+	{
+		timeElapsedForSearchingInterval -= Time.deltaTime;
+		if (timeElapsedForSearchingInterval > 0) return;
+
+		if (isReachedWorld)
+		{
+			//I have already reached the world
+			return;
+		}
+
+		//Debug.Log("veing activated");
+		timeElapsedForSearchingInterval = nextBranchSearchInterval;
+		Vector2 dirBranchingForward;
+		if (extendedRelativePositions.Count == 0)
+		{
+			dirBranchingForward = thisTransformForward;
+		}
+		else
+		{
+			dirBranchingForward = extendedRelativePositions[0].normalized;
+		}
+		float branchingForwardAngle = Mathf.Atan2(dirBranchingForward.y, dirBranchingForward.x);
+		//Debug.Log(dirBranchingForward + " " +branchingForwardAngle * (180f/Mathf.PI));
+		float upwardAngle = branchingForwardAngle
+			+ Random.Range(-0.3f * Mathf.PI, 0.3f * Mathf.PI);
+		Vector2 dirBranching = new Vector2(Mathf.Cos(upwardAngle), Mathf.Sin(upwardAngle));
+		//Debug.Log(dirBranching + " " + (upwardAngle * (180f/Mathf.PI))) ;	
+
+
+		Vector2 lastBranchPosition = thisTransformPosition;
+		foreach (var position in extendedRelativePositions) lastBranchPosition += position;
+		var testResult = Physics2D.Raycast(lastBranchPosition, dirBranching, nextBranchMaxLength, LayerMask.GetMask("World"));
+		bool didHitAnyTarget = testResult.transform != null;
+		Vector2 extendedLength;
+		if (didHitAnyTarget)
+		{
+			isReachedWorld = true;
+			extendedLength = testResult.point - lastBranchPosition;
+			//Debug.Log("hit the world");
+		}
+		else
+		{
+			extendedLength = dirBranching * nextBranchMaxLength;
+			//Debug.Log("Not hit the world");
+		}
+		if (extendedLength.magnitude > MINIMUM_BRACNH_LENGTH)
+			extendedRelativePositions.Add(extendedLength);
+		else
+		{
+		}
 	}
 	public override void respawn()
 	{

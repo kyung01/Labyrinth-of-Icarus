@@ -90,11 +90,16 @@ public class Game : MonoBehaviour
 	{
 		//Debug.Log("BLOOM");
 		//kill the seed first
-		seed.kill();
-		var newVein = veinList.getNextDeadEntity();
-		newVein.transform.position = seed.transform.position;
-		newVein.respawn();
-		newVein.transform.rotation = seed.transform.rotation;
+		List<float> veinAngles = new List<float>() { seed.transform.rotation.eulerAngles.z, seed.transform.rotation.eulerAngles.z + Random.Range(-45, 0), seed.transform.rotation.eulerAngles.z + Random.Range(0, 45) };
+		for(int i = 0; i < veinAngles.Count; i++)
+		{
+			//Debug.Log("Angle at " + veinAngles[i]);
+
+			var newVein = veinList.getNextDeadEntity();
+			newVein.transform.position = seed.transform.position;
+			newVein.transform.rotation = Quaternion.Euler(0, 0, veinAngles[i]);
+			newVein.respawn();
+		}
 
 
 

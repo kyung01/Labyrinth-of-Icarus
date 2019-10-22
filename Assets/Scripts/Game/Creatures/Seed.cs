@@ -40,11 +40,25 @@ public class Seed : Entity
 
 		var objectName = collision.gameObject.name;
 
-		if (objectName.Equals("Ground")|| objectName.Equals("Wall Left" ) || objectName.Equals("Wall Right")
+		if (objectName.Equals("Ground") || 
+			objectName.Equals("Wall Left") || 
+			objectName.Equals("Wall Right")
 			|| objectName.Equals("Ceiling"))
-		
+		{
+			var rayCast = Physics2D.Raycast(this.transform.position, (collision.transform.position - this.transform.position).normalized, 100, LayerMask.GetMask("World"));
+			//Debug.Log(rayCast.transform);
+			if (rayCast.transform != null)
+			{
+				this.transform.LookAt2D(this.transform.position + rayCast.normal.toVec3());
+
+			}
+			bloom();
+			kill();
+
+		}
+
 		//came in contact with the ground
-		bloom();
-		
+
+
 	}
 }
