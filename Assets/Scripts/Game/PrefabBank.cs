@@ -22,6 +22,21 @@ public class PrefabBank : ScriptableObject
 			return playerBullet as T;
 
 		}
+		if (typeof(T) == typeof(Seed))
+		{
+			return seed as T;
+
+		}
+		if (typeof(T) == typeof(TumorCore))
+		{
+			return tumorCore as T;
+
+		}
+		if (typeof(T) == typeof(Vein))
+		{
+			return Vein as T;
+
+		}
 		if (typeof(T) == typeof(Tumor))
 		{
 			return tumor as T;

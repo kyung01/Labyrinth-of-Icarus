@@ -53,12 +53,13 @@ public class Game : MonoBehaviour
 	EntitySmartList<SimpleBullet> bulletList = new EntitySmartList<SimpleBullet>();
 	EntitySmartList<Seed> seedList = new EntitySmartList<Seed>();
 	EntitySmartList<Vein> veinList = new EntitySmartList<Vein>();
+	EntitySmartList<Tumor> tumorList = new EntitySmartList<Tumor>();
 	EntitySmartList<TumorCore> tumorCoreList = new EntitySmartList<TumorCore>();
 	// Use this for initialization
 	void instantiate<T>(EntitySmartList<T> list, int count) where T:Entity
 	{
 
-		for (int i = 0; i < 30; i++)
+		for (int i = 0; i < count; i++)
 		{
 			var entity = Instantiate(prefabBank.get<T>());
 			list.addEntity(entity);
@@ -68,29 +69,22 @@ public class Game : MonoBehaviour
 	}
 	void Start()
 	{
-		instantiate<SimpleBullet>(bulletList,30);
-			
-		for (int i = 0; i < 30; i++)
+		instantiate<SimpleBullet>(bulletList, 30);
+		instantiate<Seed>(seedList, 30);
+		instantiate<Vein>(veinList, 30);
+		instantiate<Tumor>(tumorList, 30);
+		instantiate<TumorCore>(tumorCoreList, 30);
+		for (int i = 0; i < seedList.Count; i++)
 		{
-			var seed = Instantiate(prefabBank.seed);
+			var seed = seedList.getNextEntity();
 			seed.evntBloom = hdlSeedBloom;
-			seedList.addEntity(seed);
-			seed.kill();
-
 		}
-		for (int i = 0; i < 30; i++)
+		for (int i = 0; i < tumorCoreList.Count; i++)
 		{
-			var vain = Instantiate(prefabBank.Vein);
-			veinList.addEntity(vain);
-			vain.kill();
+			var tumorCore = tumorCoreList.getNextEntity();
+			tumorCore.evntFinishedGrowing = hdlFinishedGrowing;
 		}
 
-		for (int i = 0; i < 30; i++)
-		{
-			var tumorCore = Instantiate(prefabBank.Vein);
-			veinList.addEntity(tumorCore);
-			tumorCore.kill();
-		}
 	}
 	void hdlSeedBloom(Seed seed)
 	{
@@ -103,6 +97,11 @@ public class Game : MonoBehaviour
 		newVein.transform.rotation = seed.transform.rotation;
 
 
+	}
+	void hdlFinishedGrowing(TumorCore tumorCore)
+	{
+		tumorCore.kill();
+		//spawn 
 	}
 
 	// Update is called once per frame

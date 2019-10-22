@@ -18,4 +18,4 @@ MonoBehaviour:
   Vein: {fileID: 7387952094086655672, guid: 944474dc7d898c94994ce723c732e0f2, type: 3}
   tumorCore: {fileID: 7138279816480643537, guid: 1db75e5f21d0dd34ca112816215e72e9,
     type: 3}
-  tumor: {fileID: 0}
+  tumor: {fileID: 4093668537759336041, guid: 1c18365e570e23643af9b5d44b9ccf55, type: 3}
