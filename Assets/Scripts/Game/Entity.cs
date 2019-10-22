@@ -47,7 +47,7 @@ public class Entity : MonoBehaviour
 	{
 
 	}
-	public void kill()
+	public virtual void kill()
 	{
 		isAlive = false;
 		setActive(false);

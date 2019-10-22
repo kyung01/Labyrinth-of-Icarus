@@ -98,10 +98,38 @@ public class Game : MonoBehaviour
 
 
 	}
-	void hdlFinishedGrowing(TumorCore tumorCore)
+	void hdlFinishedGrowing(TumorCore core)
 	{
-		tumorCore.kill();
 		//spawn 
+		List<Vector3> relativeSpawnPositions = new List<Vector3>();
+		if(core.transform.lossyScale.x > 3){
+			relativeSpawnPositions.AddRange(new Vector3[] {
+				new Vector3(-1.0f, 1.0f, 0), new Vector3(0.0f, 1.0f, 0), new Vector3(1.0f, 1.0f, 0),
+				new Vector3(-1.0f, .0f, 0), new Vector3(0.0f, .0f, 0), new Vector3(1.0f, .0f, 0),
+				new Vector3(-1.0f, -1.0f, 0), new Vector3(0.0f, -1.0f, 0), new Vector3(1.0f, -1.0f, 0)
+			});
+		}
+		else if (core.transform.lossyScale.x > 2)
+		{
+			//spawn 4 tumors
+			relativeSpawnPositions.AddRange(new Vector3[] { new Vector3(-0.5f, 0.5f, 0), new Vector3(0.5f, 0.5f, 0), new Vector3(-0.5f, -0.5f, 0), new Vector3(0.5f, -0.5f, 0) });
+		}
+		else if (core.transform.lossyScale.x > 1)
+		{
+			relativeSpawnPositions.AddRange(new Vector3[] { new Vector3() });
+		}
+		Vector3 coreScale = core.transform.localScale;
+		core.transform.localScale = Vector3.one;
+		for (int i = 0; i < relativeSpawnPositions.Count; i++)
+		{
+			var tumor = tumorList.getNextDeadEntity();
+			tumor.transform.parent = core.transform;
+			tumor.transform.localRotation = Quaternion.identity;
+			tumor.transform.localPosition = relativeSpawnPositions[i];
+			tumor.transform.parent = null;
+			tumor.respawn();
+		}
+		core.transform.localScale = coreScale;
 	}
 
 	// Update is called once per frame
@@ -130,7 +158,18 @@ public class Game : MonoBehaviour
 	void loadLevel00()
 	{
 		//three seeds
+		float tumorNumber = 3;
 		float seedNumber = 3;
+		for (int i = 0; i < seedNumber; i++)
+		{
+			var tumor = tumorCoreList.getNextDeadEntity();
+			if (tumor == null) return;
+			tumor.respawn();
+
+			tumor.transform.position = new Vector3(WORLD_WIDTH / (seedNumber + 1) * (1 + i), GROUND_HEIGHT + 0.9f * (WORLD_HEIGHT - GROUND_HEIGHT), 0);
+			tumor.rigidbody.AddTorque(Random.Range(-10, 10));
+			tumor.rigidbody.AddForce(new Vector2(Random.Range(-300, 300), Random.Range(-300, 300)));
+		}
 		List<Seed> seeds = new List<Seed>();
 		for (int i = 0; i < seedNumber; i++)
 		{

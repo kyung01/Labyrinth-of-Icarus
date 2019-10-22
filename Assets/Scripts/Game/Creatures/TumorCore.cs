@@ -20,14 +20,23 @@ public class TumorCore : Entity
 	// Update is called once per frame
 	void Update()
 	{
-		float maxGrowSize = 3.0f;
+		float maxGrowSize = 2.3f;
 		growingPercentage += growingSpeed * Time.deltaTime;
 		float ratio = Mathf.Min(1, growingPercentage);
 		this.transform.localScale = new Vector3(1 + ratio* maxGrowSize, 1 + ratio* maxGrowSize, 1);
 		if (growingPercentage > 1)
 		{
-			if (evntFinishedGrowing != null) evntFinishedGrowing(this);
+			if (evntFinishedGrowing != null)
+			{
+				kill();
+			}
 
 		}
 	}
+	public override void kill()
+	{
+		base.kill();
+		if (evntFinishedGrowing != null) evntFinishedGrowing(this);
+	}
+
 }
