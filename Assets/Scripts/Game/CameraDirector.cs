@@ -58,24 +58,41 @@ public class CameraDirector : MonoBehaviour
 		Vector3 distance = cameraTargetPosition - cameraLockedPosition;
 		//float xDir = distance.x / (0.01f + Mathf.Abs(distance.x));
 		//float yDir = distance.y / (0.01f + Mathf.Abs(distance.y));
-		if ((cameraLockDistance.x > 0 && distance.x < 0) || (cameraLockDistance.x < 0 && distance.x > 0))
-		{
-			//Camera is either too forward or backward, lock the camera
-			cameraTargetPosition.x = cameraLockedPosition.x;
-		}
-		if ((cameraLockDistance.y > 0 && distance.y < 0) || (cameraLockDistance.y < 0 && distance.y > 0))
-		{
-			//Camera is either too upward or downward, lock the camera
-			cameraTargetPosition.y = cameraLockedPosition.y;
-		}
-		if(Mathf.Abs(distance.x ) > Mathf.Abs(cameraLockDistance.x))
-		{
-			cameraTargetPosition.x = cameraLockedPosition.x + cameraLockDistance.x;
-		}
 		UpdateCameraFollowTarget(cameraTargetPosition);
 
 
+
+		if (Mathf.Abs(distance.x) > Mathf.Abs(cameraLockDistance.x))
+		{
+			this.transform.position = new Vector3(
+				cameraLockedPosition.x + (distance.x / (0.01f + Mathf.Abs(distance.x))) * Mathf.Abs(cameraLockDistance.x), 
+				this.transform.position.y, this.transform.position.z);
+		}
+		if (Mathf.Abs(distance.y) > Mathf.Abs(cameraLockDistance.y))
+		{
+			this.transform.position = new Vector3(this.transform.position.x, 
+				cameraLockedPosition.y + (distance.y / (0.01f + Mathf.Abs(distance.y))) * Mathf.Abs(cameraLockDistance.y), 
+				this.transform.position.z);
+		}
+
+
+		if ((cameraLockDistance.x > 0 && this.transform.position.x < cameraLockedPosition.x)||
+			(cameraLockDistance.x < 0 && this.transform.position.x > cameraLockedPosition.x)
+			)
+		{
+			//Camera is either too forward or backward, lock the camera
+			this.transform.position = new Vector3(cameraLockedPosition.x, this.transform.position.y, this.transform.position.z);
+		}
+		if ((cameraLockDistance.y > 0 && this.transform.position.y < cameraLockedPosition.y) ||
+			(cameraLockDistance.y < 0 && this.transform.position.y > cameraLockedPosition.y)
+			)
+		{
+			//Camera is either too forward or backward, lock the camera
+			Debug.Log("Locking Y of Camera");
+			this.transform.position = new Vector3( this.transform.position.x,cameraLockedPosition.y, this.transform.position.z);
+		}
 	}
+	
 
 	void UpdateCameraFollowTarget(Vector3 cameraTargetPosition)
     {
