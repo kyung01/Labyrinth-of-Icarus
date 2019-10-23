@@ -185,8 +185,8 @@ public class Game : MonoBehaviour
 	{
 		switch (state) {
 			case GAME_STATE.INITIAL:
-				loadLevel00();
-				gameLevel++;
+				//loadLevel00();
+				//gameLevel++;
 				state = GAME_STATE.PLAYING;
 				break;
 			case GAME_STATE.PLAYING:
