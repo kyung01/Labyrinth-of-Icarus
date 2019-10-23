@@ -88,7 +88,7 @@ public class CameraDirector : MonoBehaviour
 			)
 		{
 			//Camera is either too forward or backward, lock the camera
-			Debug.Log("Locking Y of Camera");
+			//Debug.Log("Locking Y of Camera");
 			this.transform.position = new Vector3( this.transform.position.x,cameraLockedPosition.y, this.transform.position.z);
 		}
 	}
@@ -125,5 +125,6 @@ public class CameraDirector : MonoBehaviour
 	public void releasePosition()
 	{
 		this.state = CameraDirectorState.NORMAL;
+		Debug.Log("Release Camera");
 	}
 }

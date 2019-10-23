@@ -4206,7 +4206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownerType: 1
   type: 0
-  health: 0
+  health: 30
   isAlive: 1
   rigidbody: {fileID: 1475785304}
   detectTimeInterval: 0.3
@@ -5634,7 +5634,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1982315269
 Transform:
   m_ObjectHideFlags: 0
@@ -5729,7 +5729,7 @@ MonoBehaviour:
   MAXIMUM_DISTANCE: 15
   IDEAL_CHASING_DISTANCE: 10
   IDEAL_VERTICAL_INDENT: 7
-  CAMERA_FOLLOWUP_SPEED: 20
+  CAMERA_FOLLOWUP_SPEED: 30
 --- !u!4 &2000953522
 Transform:
   m_ObjectHideFlags: 0
@@ -5764,7 +5764,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &2031840344
 SpriteRenderer:
   m_ObjectHideFlags: 0
