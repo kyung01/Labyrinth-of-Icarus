@@ -10,8 +10,9 @@ public class CameraLockCheckpoint : MonoBehaviour
 	public delegate void DelCameraLockCheckpoint(CameraLockCheckpoint self);
 	[SerializeField]
 	Vector2 cameraMaximumTravelDistance;
-	bool isActivated = false;
-	DelCameraLockCheckpoint evntActivated;
+	protected bool isActivated = false;
+	protected DelCameraLockCheckpoint evntActivated;
+	protected bool isAllowedToBeActivated = true;
 	// Use this for initialization
 	void Start()
 	{
@@ -19,6 +20,7 @@ public class CameraLockCheckpoint : MonoBehaviour
 	}
 	void lockCamera()
 	{
+		if (!isAllowedToBeActivated) return;
 		CameraDirector.self.lockPosition(this.transform.position, cameraMaximumTravelDistance);
 	}
 	// Update is called once per frame

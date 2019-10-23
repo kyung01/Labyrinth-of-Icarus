@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class DestroyEvent : MonoBehaviour
+public class DestroyEvent : GameEvent
 {
 	[SerializeField]
 	List<Entity> entitiesToDestroy;
@@ -18,6 +18,20 @@ public class DestroyEvent : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		foreach(var entity in entitiesToDestroy)
+		{
+			if (entity.IsAlive) return;
+		}
+		activate();
+		
 
+	}
+	public override void activated()
+	{
+		base.activated();
+		foreach (var obj in gameObjectToDisable)
+		{
+			obj.SetActive(false);
+		}
 	}
 }

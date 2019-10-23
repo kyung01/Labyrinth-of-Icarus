@@ -4,7 +4,7 @@ using System.Collections;
 /// <summary>
 /// Spawns the particular Entity
 /// </summary>
-public class EntitySpanwer : Entity
+public class EntitySpanwer : EntityEnemy
 {
 	[SerializeField]
 	Entity spanwedEntity;
@@ -14,23 +14,28 @@ public class EntitySpanwer : Entity
 
 	float timeRemainingToSpawnEntity = 0;
 
-	// Use this for initialization
-	void Start()
+	public override void Start()
 	{
+		base.Start();
+
 		timeRemainingToSpawnEntity = spawnInterval;
 	}
-
-	// Update is called once per frame
-	void Update()
+	
+	public override void updateEngaged()
 	{
+		base.updateEngaged();
 		timeRemainingToSpawnEntity -= Time.deltaTime;
-		if(timeRemainingToSpawnEntity < 0)
+		if (timeRemainingToSpawnEntity < 0)
 		{
 			timeRemainingToSpawnEntity = spawnInterval;
 			var entity = Instantiate(spanwedEntity);
 			entity.transform.position = this.transform.position;
 			entity.transform.rotation = this.transform.rotation;
+			var ai = entity.GetComponent<AIEntity>();
+			if(ai != null)
+			{
+				ai.setState(AIEntity.EntityState.ENGAGED);
+			}
 		}
-
 	}
 }

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Entity : MonoBehaviour
 {
+	public delegate void DelEntity(Entity self);
+
 	public enum OWNER_TYPE { PLAYER, ENEMY };
 	public enum ENTITY_TYPE {DEFAULT,BULLET };
 	[SerializeField]
@@ -15,6 +17,7 @@ public class Entity : MonoBehaviour
 	bool isAlive = true;
 	[SerializeField]
 	public Rigidbody2D rigidbody;
+	public DelEntity evntKill;
 
 	public bool IsAlive
 	{
@@ -50,6 +53,10 @@ public class Entity : MonoBehaviour
 	public virtual void kill()
 	{
 		isAlive = false;
+		if(evntKill!= null)
+		{
+			evntKill(this);
+		}
 		setActive(false);
 	}
 	public void changeHpBy(float amount)

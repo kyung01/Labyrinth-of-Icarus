@@ -121,6 +121,9 @@ public class CameraDirector : MonoBehaviour
 		this.state = CameraDirectorState.LOCKED;
 		cameraLockedPosition = origin;
 		this.cameraLockDistance = cameraLockDistance;
-
+	}
+	public void releasePosition()
+	{
+		this.state = CameraDirectorState.NORMAL;
 	}
 }

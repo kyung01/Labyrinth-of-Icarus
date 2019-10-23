@@ -9,11 +9,33 @@ public class AIEntity : Entity
 	public enum EntityState {IDL,PATROLLING,FOUND_TARGET,ENGAGED };
 	protected EntityState state = EntityState.IDL;
 	// Use this for initialization
-	void Start()
+	public virtual void setState(EntityState state)
+	{
+		this.state = state;
+	}
+	public virtual void Start()
 	{
 
 	}
+	private void FixedUpdate()
+	{
 
+		switch (state)
+		{
+			case EntityState.IDL:
+				fixedUpdateIDL();
+				break;
+			case EntityState.PATROLLING:
+				fixedUpdatePatrolling();
+				break;
+			case EntityState.ENGAGED:
+				fixedUpdateEngaged();
+				break;
+			case EntityState.FOUND_TARGET:
+				fixedUpdateFoundTarget();
+				break;
+		}
+	}
 	// Update is called once per frame
 	void Update()
 	{
@@ -32,6 +54,24 @@ public class AIEntity : Entity
 				break;
 		}
 	}
+
+
+	public virtual void fixedUpdateIDL() {
+
+	}
+	public virtual void fixedUpdatePatrolling()
+	{
+
+	}
+	public virtual void fixedUpdateEngaged()
+	{
+
+	}
+	public virtual void fixedUpdateFoundTarget()
+	{
+
+	}
+
 	public virtual void updateIDL()
 	{
 

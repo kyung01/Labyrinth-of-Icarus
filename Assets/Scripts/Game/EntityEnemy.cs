@@ -1,21 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//
-public class MeatBall : AIEntity
+/// <summary>
+/// Basic class used for enemies.
+/// It has a cycle of behaviour that's widely used 
+/// </summary>
+public class EntityEnemy : AIEntity
 {
+
 	[SerializeField]
 	float detectTimeInterval = 1;
 	[SerializeField]
 	float detectRange = 1;
 	[SerializeField]
-	float detectJumpForce = 1;
-	[SerializeField]
 	float reactionTime = 1;
-	[SerializeField]
-	float rollingTorque = 1;
-	[SerializeField]
-	float torqueApplyInterval = 1;
 
 	float timeRemainingToReact = 0;
 
@@ -26,9 +24,9 @@ public class MeatBall : AIEntity
 	public override void Start()
 	{
 		base.Start();
+
 		timeRemainingToDetect = detectTimeInterval;
 		timeRemainingToReact = reactionTime;
-		timeRemainingToApplyTorque = torqueApplyInterval;
 	}
 	/// <summary>
 	/// MeatBall jumps every few 2~3 seconds until approached by the player
@@ -47,11 +45,10 @@ public class MeatBall : AIEntity
 	void detectPlayer()
 	{
 		var dis = Player.GetPlayerPosition() - this.transform.position;
-		if(dis.sqrMagnitude < detectRange* detectRange)
+		if (dis.sqrMagnitude < detectRange * detectRange)
 		{
 			//detected the player
 			this.state = EntityState.FOUND_TARGET;
-			rigidbody.AddForce(this.transform.up * detectJumpForce, ForceMode2D.Impulse);
 		}
 	}
 	/// <summary>
@@ -61,7 +58,7 @@ public class MeatBall : AIEntity
 	{
 		base.updateFoundTarget();
 		timeRemainingToReact -= Time.deltaTime;
-		if(timeRemainingToReact < 0)
+		if (timeRemainingToReact < 0)
 		{
 			timeRemainingToReact = reactionTime;
 			state = EntityState.ENGAGED;
@@ -74,19 +71,4 @@ public class MeatBall : AIEntity
 	{
 		base.updateEngaged();
 	}
-	private void FixedUpdate()
-	{
-		if(state == EntityState.ENGAGED)
-		{
-			timeRemainingToApplyTorque -= Time.fixedDeltaTime;
-			if (timeRemainingToApplyTorque < 0)
-			{
-				timeRemainingToApplyTorque = torqueApplyInterval;
-				float x = Player.GetPlayerPosition().x - this.transform.position.x;
-				rigidbody.AddTorque(-x / Mathf.Abs(0.01f + x) * rollingTorque , ForceMode2D.Impulse);
-			}
-			
-		}
-	}
-
 }
