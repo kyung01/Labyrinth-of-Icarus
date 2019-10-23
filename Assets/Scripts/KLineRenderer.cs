@@ -24,7 +24,11 @@ public class KLineRenderer : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
+		timeElapsedToStart = Random.Range(0, 100.0f);
+		timeElapsedReachingEnd = Random.Range(0, 100.0f);
+		timeElapsedFinishingAnimation = Random.Range(0, 100.0f);
 
+		animationCycleIndex = Random.Range(0, 3);
 	}
 	float timeElapsed = 0;
 	// Update is called once per frame
@@ -40,13 +44,19 @@ public class KLineRenderer : MonoBehaviour
 		float MAXIMUM_RED_INTENSITY = 0.5f;
 		float width = 0.7f;
 		float minimumHeight = 0.3f;
+		
 		if (animationCycleIndex == 0)
 		{
-			timeElapsedToStart += Time.deltaTime;
 			float ratio = Mathf.Min(1, timeElapsedToStart / timeNeededToStart);
+			timeElapsedToStart += Time.deltaTime;
 			//Debug.Log("RATIO " + ratio);
-			colorGradient.colorKeys = new GradientColorKey[] {  new GradientColorKey(new Color(MAXIMUM_RED_INTENSITY*ratio, 0,0),0), new GradientColorKey(greyRed, ratio* 0.5f) };
-			widthCurve.keys = new Keyframe[] { new Keyframe(0.0f, minimumHeight + ratio * width), new Keyframe(ratio*0.5f, minimumHeight ),new Keyframe(1, minimumHeight ) };
+			colorGradient.colorKeys = new GradientColorKey[] {
+				new GradientColorKey(greyRed, -0.5f),
+				new GradientColorKey(new Color(
+					greyRed.r+ (MAXIMUM_RED_INTENSITY- greyRed.r)*ratio, greyRed.g*(1-ratio),greyRed.b*(1-ratio)
+					),0),
+				new GradientColorKey(greyRed, 0.5f) };
+			widthCurve.keys = new Keyframe[] { new Keyframe(0.0f, minimumHeight + ratio * width), new Keyframe(0.5f, minimumHeight ),new Keyframe(1, minimumHeight ) };
 			if (timeElapsedToStart > timeNeededToStart)
 			{
 				animationCycleIndex = 1;
@@ -56,11 +66,12 @@ public class KLineRenderer : MonoBehaviour
 		}
 		else if (animationCycleIndex == 1)
 		{
-			timeElapsedReachingEnd += Time.deltaTime;
 			float ratio = Mathf.Min(1, timeElapsedReachingEnd / timeNeededToReachEnd);
-			colorGradient.colorKeys = new GradientColorKey[] {  new GradientColorKey(greyRed, Mathf.Max(ratio - 0.5f, 0)), new GradientColorKey(new Color(MAXIMUM_RED_INTENSITY,0,0), ratio), new GradientColorKey(greyRed, Mathf.Min(ratio + 0.5f, 1)) };
-			widthCurve.keys = new Keyframe[] { new Keyframe(Mathf.Max(ratio - 0.5f, 0), minimumHeight), new Keyframe(ratio, minimumHeight+width), new Keyframe(Mathf.Min(ratio+0.5f,1), minimumHeight) };
-			if(timeElapsedReachingEnd > timeNeededToReachEnd)
+			timeElapsedReachingEnd += Time.deltaTime;
+			colorGradient.colorKeys = new GradientColorKey[] { new GradientColorKey(greyRed, ratio - 0.5f), new GradientColorKey(new Color(MAXIMUM_RED_INTENSITY, 0, 0), ratio), new GradientColorKey(greyRed, ratio + 0.5f) };
+			widthCurve.keys = new Keyframe[] { new Keyframe(ratio - 0.5f, minimumHeight), new Keyframe(ratio, minimumHeight+width), new Keyframe(ratio + 0.5f, minimumHeight) };
+			
+			if (timeElapsedReachingEnd > timeNeededToReachEnd)
 			{
 				animationCycleIndex = 2;
 				timeElapsedReachingEnd = 0;
@@ -69,10 +80,20 @@ public class KLineRenderer : MonoBehaviour
 		}
 		else if(animationCycleIndex == 2)
 		{
-			timeElapsedFinishingAnimation += Time.deltaTime;
 			float ratio = Mathf.Min(1, timeElapsedFinishingAnimation / timeNeededToFinish);
-			colorGradient.colorKeys = new GradientColorKey[] { new GradientColorKey(greyRed, 0.5f + 0.5f* ratio), new GradientColorKey(new Color(MAXIMUM_RED_INTENSITY*  (1.0f-ratio),0,0) , 1) };
-			widthCurve.keys = new Keyframe[] { new Keyframe(0.5f + 0.5f * ratio, minimumHeight), new Keyframe(1, minimumHeight+width * (1.0f -ratio) ) };
+			timeElapsedFinishingAnimation += Time.deltaTime;
+			float maxedRatio = 1 - 0.00001f;
+
+			colorGradient.colorKeys = new GradientColorKey[] { new GradientColorKey(greyRed, maxedRatio - 0.5f),
+				new GradientColorKey(new Color(MAXIMUM_RED_INTENSITY + (greyRed.r - MAXIMUM_RED_INTENSITY)*ratio, greyRed.g*ratio,greyRed.b*ratio), maxedRatio),
+				new GradientColorKey(greyRed, maxedRatio + 0.5f) };
+
+
+			widthCurve.keys = new Keyframe[] {
+				new Keyframe(0.5f + 0.5f * ratio, minimumHeight),
+				new Keyframe(1+0.5f*ratio, minimumHeight+width * (1.0f -ratio) ),
+				new Keyframe(1.5f+0.5f*ratio, minimumHeight )
+			};
 			if (timeElapsedFinishingAnimation > timeNeededToFinish)
 			{
 				animationCycleIndex = 0;

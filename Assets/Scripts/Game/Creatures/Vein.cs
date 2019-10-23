@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class Vein : Entity
 {
-	[SerializeField]
+	static float MAXIMUM_BRANCH_ITERATION = 60;
 	static float MINIMUM_BRACNH_LENGTH = 0.1f;
 	[SerializeField]
 	float nextBranchSearchInterval;
@@ -20,7 +20,10 @@ public class Vein : Entity
 	public List<Vector2> extendedRelativePositions = new List<Vector2>();
 
 	bool isReachedWorld = false;
+	public bool IsDoneGrowing { get { return isReachedWorld; } }
+
 	float isReachedWorldCountPower = 1;
+	float iterationCount = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,14 +35,19 @@ public class Vein : Entity
     // Update is called once per frame
     void Update()
 	{
-		timeElapsedForSearchingInterval -= Time.deltaTime;
-		if (timeElapsedForSearchingInterval > 0) return;
-
 		if (isReachedWorld)
 		{
 			//I have already reached the world
 			return;
 		}
+
+		timeElapsedForSearchingInterval -= Time.deltaTime;
+		if (timeElapsedForSearchingInterval > 0) return;
+		if(iterationCount++ > MAXIMUM_BRANCH_ITERATION)
+		{
+			isReachedWorld = true;
+		}
+
 
 		//Debug.Log("veing activated");
 		timeElapsedForSearchingInterval = nextBranchSearchInterval;

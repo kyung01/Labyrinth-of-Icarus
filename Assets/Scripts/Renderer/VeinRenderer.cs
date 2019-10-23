@@ -16,6 +16,7 @@ public class VeinRenderer : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if (vein.IsDoneGrowing) this.enabled = false;
 		lineRender.positionCount = 1+vein.extendedRelativePositions.Count;
 		var positionBegin = vein.transform.position.toVec2();
 		lineRender.SetPosition(0, positionBegin);
