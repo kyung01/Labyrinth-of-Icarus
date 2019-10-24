@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TentacleRenderer : MonoBehaviour
+public class KTentacleRenderer : MonoBehaviour
 {
 	[SerializeField]
 	SpriteRenderer spriteCenter;

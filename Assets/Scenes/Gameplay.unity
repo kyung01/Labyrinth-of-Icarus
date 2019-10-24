@@ -416,6 +416,9 @@ MonoBehaviour:
   PREFAB_LINK: {fileID: 2961321203014353552, guid: 822a99e8bdc06a64b96442f79156a098,
     type: 3}
   gravity: {x: 0, y: -9.8}
+  LINK_COUNT: 0
+  ropeStart: {fileID: 0}
+  ropeEnd: {fileID: 0}
 --- !u!114 &184592474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3822,6 +3825,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133152147376234572, guid: 1b5d94e420292b440b3859bd4120033e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8133152147376234573, guid: 1b5d94e420292b440b3859bd4120033e, type: 3}

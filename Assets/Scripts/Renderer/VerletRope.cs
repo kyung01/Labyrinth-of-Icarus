@@ -8,6 +8,10 @@ public class VerletRope : MonoBehaviour
 	VerletLink PREFAB_LINK;
 	[SerializeField]
 	Vector2 gravity;
+	[SerializeField]
+	public int GENERATED_NODE_COUNT;
+	[SerializeField]
+	public Transform ropeStart, ropeEnd;
 
 	protected List<VerletLink> links = new List<VerletLink>();
 	List<GameObject> debugTracers = new List<GameObject>();
@@ -15,23 +19,25 @@ public class VerletRope : MonoBehaviour
 	// Use this for initialization
 	public virtual void Start()
 	{
-		int LINK_COUNT = 20;
-		for(int i = 0; i < LINK_COUNT; i++)
+		if (GENERATED_NODE_COUNT < 2) GENERATED_NODE_COUNT = 2;
+		for (int i = 0; i < GENERATED_NODE_COUNT; i++)
 		{
 			Dictionary<VerletLink, float> dicConnectedLinks = new Dictionary<VerletLink, float>();
 			if (i != 0)
 			{
 				dicConnectedLinks.Add(links[i - 1], 1);
 			}
-			links.Add(Instantiate(PREFAB_LINK).init( this.transform.position, dicConnectedLinks) );
+			links.Add(Instantiate(PREFAB_LINK).init(this.transform.position, dicConnectedLinks) );
 			//links[links.Count-1].transform.parent= this.transform
 		}
-		for(int i = 0; i < LINK_COUNT-1; i++)
+		for(int i = 0; i < GENERATED_NODE_COUNT-1; i++)
 		{
 			links[i].connectedTo.Add(links[i + 1],1);
 		}
 		links[0].IsKinematic = true;
 		links[links.Count - 1].IsKinematic = true;
+		if (ropeStart == null) ropeStart = links[0].transform;
+		if (ropeEnd == null) ropeEnd = links[links.Count - 1].transform;
 	}
 
 	// Update is called once per frame
@@ -51,6 +57,8 @@ public class VerletRope : MonoBehaviour
 	}
 	void updateLinkConstratins()
 	{
+		links[0].Position = ropeStart.position;
+		links[links.Count-1].Position = ropeEnd.position;
 		for (int i = 0; i < links.Count; i++)
 		{
 			if (links[i].IsKinematic) continue;
