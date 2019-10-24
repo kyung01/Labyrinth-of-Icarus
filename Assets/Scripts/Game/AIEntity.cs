@@ -17,7 +17,7 @@ public class AIEntity : Entity
 	{
 
 	}
-	private void FixedUpdate()
+	public virtual void FixedUpdate()
 	{
 
 		switch (state)
@@ -37,7 +37,7 @@ public class AIEntity : Entity
 		}
 	}
 	// Update is called once per frame
-	void Update()
+	public virtual void Update()
 	{
 		switch (state) {
 			case EntityState.IDL:

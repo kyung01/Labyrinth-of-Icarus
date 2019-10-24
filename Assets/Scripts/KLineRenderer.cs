@@ -39,11 +39,11 @@ public class KLineRenderer : MonoBehaviour
 		var widthCurve = lineRenderer.widthCurve;
 		//colorGradient.colorKeys[1].time = ratio;
 		//Debug.Log("ANIMATION CYCLE #"+ animationCycleIndex);
-		Color greyRed = new Color(0.1f, 0.1f, 0.25f);
+		Color greyRed = new Color(0.1f, 0.1f, 0.3f);
 		Color red = new Color(1.0f, 0, 0);
-		float MAXIMUM_RED_INTENSITY = 0.5f;
-		float width = 0.7f;
-		float minimumHeight = 0.3f;
+		float MAXIMUM_RED_INTENSITY = 1.0f;
+		float width = 0.3f;
+		float minimumHeight = 0.7f;
 		
 		if (animationCycleIndex == 0)
 		{

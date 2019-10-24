@@ -48,8 +48,7 @@ public class Game : MonoBehaviour
 	[SerializeField]
 	float weaponFiringTorqueMax = 1;
 	float timeRemainingToFireBullet = 0;
-
-
+	
 	EntitySmartList<SimpleBullet> bulletList = new EntitySmartList<SimpleBullet>();
 	EntitySmartList<Seed> seedList = new EntitySmartList<Seed>();
 	EntitySmartList<Vein> veinList = new EntitySmartList<Vein>();
