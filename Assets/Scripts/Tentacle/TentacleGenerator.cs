@@ -21,7 +21,7 @@ public class TentacleGenerator : MonoBehaviour
 	{
 		generateTentacleLengthof(10);
 	}
-	void hprAdd(Tentacle tentacleAddedTo , TentaclePack unitToUnPackToAdd)
+	void hprAdd(KTentacle tentacleAddedTo , TentaclePack unitToUnPackToAdd)
 	{
 		tentacleAddedTo.add(unitToUnPackToAdd.bodyFirst);
 		tentacleAddedTo.add(unitToUnPackToAdd.bodySecond);

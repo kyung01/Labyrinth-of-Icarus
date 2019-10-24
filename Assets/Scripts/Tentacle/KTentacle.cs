@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class Tentacle : MonoBehaviour
+public class KTentacle : MonoBehaviour
 {
 	public List<TentacleBody> bodies = new List<TentacleBody>();
 	public List<TentacleLip> lips = new List<TentacleLip>();

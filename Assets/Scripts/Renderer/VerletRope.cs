@@ -15,7 +15,7 @@ public class VerletRope : MonoBehaviour
 	// Use this for initialization
 	public virtual void Start()
 	{
-		int LINK_COUNT = 10;
+		int LINK_COUNT = 20;
 		for(int i = 0; i < LINK_COUNT; i++)
 		{
 			Dictionary<VerletLink, float> dicConnectedLinks = new Dictionary<VerletLink, float>();
