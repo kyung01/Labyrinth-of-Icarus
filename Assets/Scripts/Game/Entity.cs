@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Entity : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class Entity : MonoBehaviour
 	bool isAlive = true;
 	[SerializeField]
 	public Rigidbody2D rigidbody;
-	public DelEntity evntKill;
+	public List<DelEntity> evntKill = new List<DelEntity>();
 
 	public bool IsAlive
 	{
@@ -55,7 +56,10 @@ public class Entity : MonoBehaviour
 		isAlive = false;
 		if(evntKill!= null)
 		{
-			evntKill(this);
+			for(int i = evntKill.Count-1; i >=0; i--)
+			{
+				evntKill[i](this);
+			}
 		}
 		setActive(false);
 	}

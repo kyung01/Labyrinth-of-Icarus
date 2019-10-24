@@ -11,26 +11,39 @@ public class TentacleRenderer : MonoBehaviour
 	float extraLengthAdded;
 	[SerializeField]
 	float extraLengthScaled;
-	public GameObject tentacleOriginTracker;
+	VerletRopeLineRenderer verletRopeRenderer;
+
+	public Rigidbody2D tentacleHeadAnimation;
+	public Rigidbody2D tentaclePivotTracker;
 	// Start is called before the first frame update
-	void Awake()
+	void Start()
     {
-		var verletRopeRenderer = GetComponent<VerletRopeLineRenderer>();
-		var tentacleLength = (tentacle.transform.position - tentacle.originPosition).magnitude;
+		verletRopeRenderer = GetComponent<VerletRopeLineRenderer>();
+		var tentacleLength = (tentacle.transform.position - tentacle.pivotObject.transform.position).magnitude;
 		Debug.Log("TENTACLE LENGTH " + tentacleLength);
 		verletRopeRenderer.GENERATED_NODE_COUNT =(int)( tentacleLength*extraLengthScaled + extraLengthAdded);
-		tentacleOriginTracker = new GameObject();
-		tentacleOriginTracker.name = "Tentacle Origin";
-		verletRopeRenderer.ropeStart = tentacle.transform;
-		verletRopeRenderer.ropeEnd = tentacleOriginTracker.transform;
-		tentacleOriginTracker.transform.parent = this.transform;
 
+		verletRopeRenderer.ropeStart = tentacle.transform;
+		verletRopeRenderer.ropeEnd = tentacle.pivotObject.transform;
+		tentacle.evntKill.Add(hdlEntityKill);
 	}
 
+	void hdlEntityKill(Entity entity)
+	{
+		Debug.Log("entity dead");
+		tentacleHeadAnimation.transform.position = verletRopeRenderer.ropeStart.position;
+		tentaclePivotTracker.transform.position = verletRopeRenderer.ropeEnd.position;
+		verletRopeRenderer.ropeStart = tentacleHeadAnimation.transform;
+		verletRopeRenderer.ropeEnd = tentaclePivotTracker.transform;
+
+		tentacleHeadAnimation.isKinematic = false;
+		tentaclePivotTracker.isKinematic = false;
+
+	}
     // Update is called once per frame
     void Update()
     {
-		tentacleOriginTracker.transform.position = tentacle.originPosition;
+		//tentaclePivotTracker.transform.position = tentacle.pivotObject.transform.position;
 
 	}
 }
