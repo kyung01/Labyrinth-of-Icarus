@@ -1,17 +1,21 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// 
 /// </summary>
 public class AIEntity : Entity
 {
+	public delegate void DelAIEntity(AIEntity self); 
 	public enum EntityState {IDL,PATROLLING,FOUND_TARGET,ENGAGED };
 	protected EntityState state = EntityState.IDL;
+	public List<DelAIEntity> evntChangedState;
 	// Use this for initialization
+
 	public virtual void setState(EntityState state)
 	{
 		this.state = state;
+		for (int i = evntChangedState.Count - 1; i >= 0; i--) evntChangedState[i](this);
 	}
 	public virtual void Start()
 	{
