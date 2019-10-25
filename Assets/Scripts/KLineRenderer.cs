@@ -20,6 +20,7 @@ public class KLineRenderer : MonoBehaviour
 	private void Awake()
 	{
 		lineRenderer = GetComponent<LineRenderer>();
+		lineRenderer.generateLightingData = true;
 	}
 	// Use this for initialization
 	void Start()
@@ -39,7 +40,7 @@ public class KLineRenderer : MonoBehaviour
 		var widthCurve = lineRenderer.widthCurve;
 		//colorGradient.colorKeys[1].time = ratio;
 		//Debug.Log("ANIMATION CYCLE #"+ animationCycleIndex);
-		Color greyRed = new Color(0.1f, 0.1f, 0.1f);
+		Color greyRed = new Color(0.3f, 0.3f, 0.3f);
 		Color red = new Color(1.0f, 0, 0);
 		float MAXIMUM_RED_INTENSITY = 1.0f;
 		float width = 0.3f;

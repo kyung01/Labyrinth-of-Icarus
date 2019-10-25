@@ -105,13 +105,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownerType: 1
   type: 0
-  health: 3
+  health: 10
   isAlive: 1
   rigidbody: {fileID: 5361210345918474846}
-  detectTimeInterval: 1
-  detectRange: 3
+  detectTimeInterval: 0.1
+  detectRange: 30
   detectJumpForce: 50
-  reactionTime: 1
+  reactionTime: 5
   rollingTorque: 50
   torqueApplyInterval: 1.2
 --- !u!50 &5361210345918474846
@@ -183,7 +183,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 24bcaacf9a8d75a4bb30612ab4c968fc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -204,7 +204,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8264a1c4a8a0f3e4fbac6cd3ac51d4b3, type: 3}
-  m_Color: {r: 1, g: 0.514151, b: 0.514151, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

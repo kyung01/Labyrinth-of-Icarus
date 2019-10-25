@@ -19,7 +19,7 @@ public class TentacleRenderer : MonoBehaviour
 	void Start()
     {
 		verletRopeRenderer = GetComponent<VerletRopeLineRenderer>();
-		var tentacleLength = (tentacle.transform.position - tentacle.pivotObject.transform.position).magnitude;
+		var tentacleLength = tentacle.getTentacleLength();
 		Debug.Log("TENTACLE LENGTH " + tentacleLength);
 		verletRopeRenderer.GENERATED_NODE_COUNT =(int)( tentacleLength*extraLengthScaled + extraLengthAdded);
 

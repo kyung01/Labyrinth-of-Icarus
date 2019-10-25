@@ -5,9 +5,16 @@ public class Tentacle : EntityEnemy
 {
 	[SerializeField]
 	float CHASING_FORCE = 10;
+	[SerializeField]
+	float maximumExtendLength;
 
 	float maximumLength;
 	public GameObject pivotObject;
+	DistanceJoint2D joint;
+	public float getTentacleLength()
+	{
+		return maximumExtendLength + maximumLength;
+	}
 
 	public override void Start()
 	{
@@ -21,9 +28,14 @@ public class Tentacle : EntityEnemy
 		maximumLength = (this.transform.position - pivotObject.transform.position).magnitude;
 		pivotRigidbody.isKinematic = true;
 
-		var joint = gameObject.AddComponent<DistanceJoint2D>();
+		joint = gameObject.AddComponent<DistanceJoint2D>();
 		joint.maxDistanceOnly = true;
 		joint.connectedBody = pivotRigidbody;
+	}
+	public override void updateFoundTarget()
+	{
+		base.updateFoundTarget();
+		joint.distance = maximumLength + maximumExtendLength;
 	}
 	public override void fixedUpdateEngaged()
 	{

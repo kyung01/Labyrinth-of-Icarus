@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public static class ExtensionMethods 
+public static class MyExtensionMethods 
 {
 
 	public static void LookAt2D(this Transform thisTransform, Vector3 otherTransformPosition)
