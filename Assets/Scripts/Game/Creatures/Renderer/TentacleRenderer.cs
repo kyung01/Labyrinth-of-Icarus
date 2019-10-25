@@ -8,6 +8,8 @@ public class TentacleRenderer : MonoBehaviour
 	[SerializeField]
 	Tentacle tentacle;
 	[SerializeField]
+	AliveLineRenderer aliveRenderer;
+	[SerializeField]
 	float extraLengthAdded;
 	[SerializeField]
 	float extraLengthScaled;
@@ -37,12 +39,17 @@ public class TentacleRenderer : MonoBehaviour
 		verletRopeRenderer.ropeEnd = tentaclePivotTracker.transform;
 
 		tentacleHeadAnimation.isKinematic = false;
-		tentaclePivotTracker.isKinematic = false;
+		aliveRenderer.defaultLineColor = Color.black;
+		aliveRenderer.highlightLineColor = Color.grey;
+		aliveRenderer.timeNeededToReachEnd = 10;
+
+		//tentaclePivotTracker.isKinematic = false;
 
 	}
     // Update is called once per frame
     void Update()
     {
+		if(tentacle.isActiveAndEnabled) tentacleHeadAnimation.transform.position = tentacle.transform.position;
 		//tentaclePivotTracker.transform.position = tentacle.pivotObject.transform.position;
 
 	}

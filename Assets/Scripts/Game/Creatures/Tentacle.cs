@@ -32,9 +32,9 @@ public class Tentacle : EntityEnemy
 		joint.maxDistanceOnly = true;
 		joint.connectedBody = pivotRigidbody;
 	}
-	public override void updateFoundTarget()
+	public override void evntDetectedPlayer()
 	{
-		base.updateFoundTarget();
+		base.evntDetectedPlayer();
 		joint.distance = maximumLength + maximumExtendLength;
 	}
 	public override void fixedUpdateEngaged()

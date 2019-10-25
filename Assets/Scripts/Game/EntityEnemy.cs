@@ -48,8 +48,13 @@ public class EntityEnemy : AIEntity
 		if (dis.sqrMagnitude < detectRange * detectRange)
 		{
 			//detected the player
+			evntDetectedPlayer();
 			this.state = EntityState.FOUND_TARGET;
 		}
+	}
+	public virtual void evntDetectedPlayer()
+	{
+
 	}
 	/// <summary>
 	/// Once MeatBall finds the targe, it waits certain time period, to give the player time to react
