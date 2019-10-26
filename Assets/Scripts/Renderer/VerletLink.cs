@@ -22,11 +22,12 @@ public class VerletLink : MonoBehaviour
 
 	public bool isConstraintsSatisfied()
 	{
-		float differenceAllowed = 0.1f;
+		float differenceAllowed = 0.5f;
 		foreach(var constraint in connectedTo)
 		{
-			if((constraint.Key.Position - this.Position).sqrMagnitude + differenceAllowed > constraint.Value* constraint.Value)
+			if((constraint.Key.Position - this.Position).sqrMagnitude > differenceAllowed +constraint.Value* constraint.Value)
 			{
+				//Debug.Log((constraint.Key.Position - this.Position).magnitude);
 				return false;
 			}
 		}

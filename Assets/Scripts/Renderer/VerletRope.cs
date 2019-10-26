@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class VerletRope : MonoBehaviour
 {
-	static float LINK_CONSTRAINT_DISTANCE = 0.25f;
+	static float LINK_CONSTRAINT_DISTANCE = 1.00f;
 	[SerializeField]
 	VerletLink PREFAB_LINK;
 	[SerializeField]
@@ -20,7 +20,7 @@ public class VerletRope : MonoBehaviour
 	// Use this for initialization
 	public virtual void Start()
 	{
-		if (GENERATED_NODE_COUNT < 2) GENERATED_NODE_COUNT = 2;
+		if (GENERATED_NODE_COUNT < 1) GENERATED_NODE_COUNT = 2;
 		for (int i = 0; i < GENERATED_NODE_COUNT; i++)
 		{
 			Dictionary<VerletLink, float> dicConnectedLinks = new Dictionary<VerletLink, float>();
@@ -39,15 +39,23 @@ public class VerletRope : MonoBehaviour
 		links[links.Count - 1].IsKinematic = true;
 		if (ropeStart == null) ropeStart = links[0].transform;
 		if (ropeEnd == null) ropeEnd = links[links.Count - 1].transform;
+		var mag = (ropeEnd.position - ropeStart.position).magnitude;
+		var dir = (ropeEnd.position - ropeStart.position).normalized;
+		for (int i = 0; i < links.Count; i++)
+		{
+			float ratio = (float)i / (float)links.Count;
+			links[i].Position = ropeStart.position + dir * mag * ratio;
+		}
 	}
 
 	// Update is called once per frame
 	public virtual void FixedUpdate()
 	{
 		updateGravity();
-		if(!isLinksSatisfied())
-			updateLinkConstratins();
+
+		updateLinkConstratins();
 		updateInnertia();
+		
 	}
 	void updateGravity()
 	{
@@ -57,12 +65,13 @@ public class VerletRope : MonoBehaviour
 			links[i].Position = links[i].Position+ gravity * Time.fixedDeltaTime;
 		}
 	}
-	bool isLinksSatisfied()
+	bool isAllLinksSatisfied()
 	{
-		for (int i = 0; i < links.Count-1; i++)
+		for (int i = 0; i < links.Count; i++)
 		{
 			if (!links[i].isConstraintsSatisfied())
 			{
+				//Debug.Log("" + i + "th not happy");
 				return false;
 			}
 		}
@@ -72,10 +81,10 @@ public class VerletRope : MonoBehaviour
 	{
 		links[0].Position = ropeStart.position;
 		links[links.Count-1].Position = ropeEnd.position;
+
 		
 		for (int i = 0; i < links.Count; i++)
 		{
-			if (links[i].IsKinematic) continue;
 			var link = links[i];
 			foreach(var constrain in link.connectedTo)
 			{
@@ -86,7 +95,12 @@ public class VerletRope : MonoBehaviour
 				{
 					//push both nodes 
 					var dir = dis.normalized;
-					if (otherLink.IsKinematic)
+					if (link.IsKinematic)
+					{
+						otherLink.Position = link.Position - (dir * maximumDistance);
+
+					}
+					else if (otherLink.IsKinematic)
 					{
 
 						link.Position = otherLink.Position + (dir * maximumDistance );
@@ -136,7 +150,6 @@ public class VerletRope : MonoBehaviour
 				allPositions += newPosition;
 			}
 			velocity += allPositions - link.PreviousPosition;
-
 			var newPreviousPosition = link.Position;
 			link.Position = allPositions;// allPositions + (velocity+ acceleration * Time.fixedDeltaTime) * Time.fixedDeltaTime;
 			//Debug.Log("I WOULD LIKE TO MOVE TO " + (allPositions + (velocity*Time.fixedDeltaTime + acceleration * Time.fixedDeltaTime)));

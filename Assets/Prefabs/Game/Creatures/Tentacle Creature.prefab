@@ -245,7 +245,7 @@ MonoBehaviour:
   tentacle: {fileID: 7421023785395874809}
   aliveRenderer: {fileID: 774670459}
   extraLengthAdded: 0
-  extraLengthScaled: 0.3
+  extraLengthScaled: 0.5
   tentacleHeadAnimation: {fileID: 7421023785509454281}
   tentaclePivotTracker: {fileID: 7421023787207932458}
   colorFoundPlayer: {r: 1, g: 0.9342736, b: 0, a: 1}
@@ -369,7 +369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PREFAB_LINK: {fileID: 2961321203014353552, guid: 822a99e8bdc06a64b96442f79156a098,
     type: 3}
-  gravity: {x: 0, y: -30}
+  gravity: {x: 0, y: -1}
   GENERATED_NODE_COUNT: 0
   ropeStart: {fileID: 0}
   ropeEnd: {fileID: 0}
