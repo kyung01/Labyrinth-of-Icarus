@@ -16,6 +16,9 @@ public class AliveLineRenderer : MonoBehaviour
 	[SerializeField]
 	public Color highlightLineColor;
 
+	[SerializeField]
+	public float widthMin, widthMax;
+
 	int animationCycleIndex = 0;
 	float timeElapsedToStart = 0;
 	float timeElapsedReachingEnd = 0;
@@ -46,8 +49,7 @@ public class AliveLineRenderer : MonoBehaviour
 		var widthCurve = lineRenderer.widthCurve;
 		//colorGradient.colorKeys[1].time = ratio;
 		//Debug.Log("ANIMATION CYCLE #"+ animationCycleIndex);
-		float width = 0.3f;
-		float minimumHeight = 0.7f;
+		float widthIncreased = widthMax-this.widthMin;
 
 		if (animationCycleIndex == 0)
 		{
@@ -62,7 +64,7 @@ public class AliveLineRenderer : MonoBehaviour
 					defaultLineColor.b+(highlightLineColor.b-defaultLineColor.b)*(ratio)
 					),0),
 				new GradientColorKey(defaultLineColor, 0.5f) };
-			widthCurve.keys = new Keyframe[] { new Keyframe(0.0f, minimumHeight + ratio * width), new Keyframe(0.5f, minimumHeight), new Keyframe(1, minimumHeight) };
+			widthCurve.keys = new Keyframe[] { new Keyframe(0.0f, widthMin + ratio * widthIncreased), new Keyframe(0.5f, widthMin), new Keyframe(1, widthMin) };
 			if (timeElapsedToStart > timeNeededToStart)
 			{
 				animationCycleIndex = 1;
@@ -78,7 +80,7 @@ public class AliveLineRenderer : MonoBehaviour
 				new GradientColorKey(defaultLineColor, ratio - 0.5f),
 				new GradientColorKey(highlightLineColor, ratio),
 				new GradientColorKey(defaultLineColor, ratio + 0.5f) };
-			widthCurve.keys = new Keyframe[] { new Keyframe(ratio - 0.5f, minimumHeight), new Keyframe(ratio, minimumHeight + width), new Keyframe(ratio + 0.5f, minimumHeight) };
+			widthCurve.keys = new Keyframe[] { new Keyframe(ratio - 0.5f, widthMin), new Keyframe(ratio, widthMin + widthIncreased), new Keyframe(ratio + 0.5f, widthMin) };
 
 			if (timeElapsedReachingEnd > timeNeededToReachEnd)
 			{
@@ -103,9 +105,9 @@ public class AliveLineRenderer : MonoBehaviour
 
 
 			widthCurve.keys = new Keyframe[] {
-				new Keyframe(0.5f + 0.5f * ratio, minimumHeight),
-				new Keyframe(1+0.5f*ratio, minimumHeight+width * (1.0f -ratio) ),
-				new Keyframe(1.5f+0.5f*ratio, minimumHeight )
+				new Keyframe(0.5f + 0.5f * ratio, widthMin),
+				new Keyframe(1+0.5f*ratio, widthMin+widthIncreased * (1.0f -ratio) ),
+				new Keyframe(1.5f+0.5f*ratio, widthMin )
 			};
 			if (timeElapsedFinishingAnimation > timeNeededToFinish)
 			{

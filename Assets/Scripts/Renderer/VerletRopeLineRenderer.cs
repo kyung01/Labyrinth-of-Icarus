@@ -17,7 +17,7 @@ public class VerletRopeLineRenderer : VerletRope
 		lineRenderer.positionCount = links.Count;
 		for(int i = 0;  i< links.Count; i++)
 		{
-			lineRenderer.SetPosition(i,new Vector3(links[i].Position.x, links[i].Position.y, - i /links.Count) );
+			lineRenderer.SetPosition(i,new Vector3(links[i].Position.x, links[i].Position.y,0) );
 		}
 	}
 }

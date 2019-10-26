@@ -6,6 +6,8 @@ public class Tentacle : EntityEnemy
 	[SerializeField]
 	float CHASING_FORCE = 10;
 	[SerializeField]
+	float SWINGING_FORCE = 10;
+	[SerializeField]
 	float maximumExtendLength;
 
 	float maximumLength;
@@ -36,6 +38,11 @@ public class Tentacle : EntityEnemy
 	{
 		base.evntDetectedPlayer();
 		joint.distance = maximumLength + maximumExtendLength;
+	}
+	public override void fixedUpdateIDL()
+	{
+		base.fixedUpdateIDL();
+
 	}
 	public override void fixedUpdateEngaged()
 	{

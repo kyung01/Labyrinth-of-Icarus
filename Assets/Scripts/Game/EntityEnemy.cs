@@ -44,12 +44,19 @@ public class EntityEnemy : AIEntity
 	}
 	void detectPlayer()
 	{
+		float detectAccuracy = 1.0f;
 		var dis = Player.GetPlayerPosition() - this.transform.position;
 		if (dis.sqrMagnitude < detectRange * detectRange)
 		{
+			//range is close enough do the raycast testing
+			var rayTest = Physics2D.Raycast(this.transform.position, dis.normalized, 100, Layers.World);
+			if((Player.GetPlayerPosition().toVec2() - rayTest.point).sqrMagnitude < detectAccuracy* detectAccuracy)
+			{
+				evntDetectedPlayer();
+				this.State = EntityState.FOUND_TARGET;
+
+			}
 			//detected the player
-			evntDetectedPlayer();
-			this.state = EntityState.FOUND_TARGET;
 		}
 	}
 	public virtual void evntDetectedPlayer()
@@ -66,7 +73,7 @@ public class EntityEnemy : AIEntity
 		if (timeRemainingToReact < 0)
 		{
 			timeRemainingToReact = reactionTime;
-			state = EntityState.ENGAGED;
+			State = EntityState.ENGAGED;
 		}
 	}
 	/// <summary>

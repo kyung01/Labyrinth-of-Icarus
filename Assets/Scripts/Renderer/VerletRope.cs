@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class VerletRope : MonoBehaviour
 {
+	static float LINK_CONSTRAINT_DISTANCE = 0.25f;
 	[SerializeField]
 	VerletLink PREFAB_LINK;
 	[SerializeField]
@@ -32,7 +33,7 @@ public class VerletRope : MonoBehaviour
 		}
 		for(int i = 0; i < GENERATED_NODE_COUNT-1; i++)
 		{
-			links[i].connectedTo.Add(links[i + 1],1);
+			links[i].connectedTo.Add(links[i + 1], LINK_CONSTRAINT_DISTANCE);
 		}
 		links[0].IsKinematic = true;
 		links[links.Count - 1].IsKinematic = true;
@@ -44,7 +45,8 @@ public class VerletRope : MonoBehaviour
 	public virtual void FixedUpdate()
 	{
 		updateGravity();
-		updateLinkConstratins();
+		if(!isLinksSatisfied())
+			updateLinkConstratins();
 		updateInnertia();
 	}
 	void updateGravity()
@@ -55,16 +57,22 @@ public class VerletRope : MonoBehaviour
 			links[i].Position = links[i].Position+ gravity * Time.fixedDeltaTime;
 		}
 	}
+	bool isLinksSatisfied()
+	{
+		for (int i = 0; i < links.Count-1; i++)
+		{
+			if (!links[i].isConstraintsSatisfied())
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 	void updateLinkConstratins()
 	{
 		links[0].Position = ropeStart.position;
 		links[links.Count-1].Position = ropeEnd.position;
-		for (int i = 0; i < links.Count; i++)
-		{
-			if (links[i].IsKinematic) continue;
-			var link = links[i];
-			link.newPositions.Clear();
-		}
+		
 		for (int i = 0; i < links.Count; i++)
 		{
 			if (links[i].IsKinematic) continue;

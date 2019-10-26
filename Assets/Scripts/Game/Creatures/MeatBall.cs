@@ -50,7 +50,7 @@ public class MeatBall : AIEntity
 		if(dis.sqrMagnitude < detectRange* detectRange)
 		{
 			//detected the player
-			this.state = EntityState.FOUND_TARGET;
+			setState(EntityState.FOUND_TARGET);
 			rigidbody.AddForce(this.transform.up * detectJumpForce, ForceMode2D.Impulse);
 		}
 	}
@@ -64,7 +64,7 @@ public class MeatBall : AIEntity
 		if(timeRemainingToReact < 0)
 		{
 			timeRemainingToReact = reactionTime;
-			state = EntityState.ENGAGED;
+			State = EntityState.ENGAGED;
 		}
 	}
 	/// <summary>
@@ -76,7 +76,7 @@ public class MeatBall : AIEntity
 	}
 	private void FixedUpdate()
 	{
-		if(state == EntityState.ENGAGED)
+		if(State == EntityState.ENGAGED)
 		{
 			timeRemainingToApplyTorque -= Time.fixedDeltaTime;
 			if (timeRemainingToApplyTorque < 0)

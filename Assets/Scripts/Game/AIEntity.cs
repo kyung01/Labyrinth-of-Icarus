@@ -8,7 +8,8 @@ public class AIEntity : Entity
 {
 	public delegate void DelAIEntity(AIEntity self); 
 	public enum EntityState {IDL,PATROLLING,FOUND_TARGET,ENGAGED };
-	protected EntityState state = EntityState.IDL;
+	EntityState state = EntityState.IDL;
+	public EntityState State { get { return state; } set { setState(value); } }
 	public List<DelAIEntity> evntChangedState = new List<DelAIEntity>();
 	// Use this for initialization
 
