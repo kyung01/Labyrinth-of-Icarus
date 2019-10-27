@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 7421023785509454283}
   - component: {fileID: 7421023785509454281}
   - component: {fileID: 7421023785509454280}
+  - component: {fileID: 1007579013}
   m_Layer: 10
   m_Name: HeadTracker
   m_TagString: Untagged
@@ -118,14 +119,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7421023785509454282}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 10
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -147,6 +148,26 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!231 &1007579013
+SpringJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7421023785509454282}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 7421023787207932458}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 0
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0, y: 0}
+  m_AutoConfigureDistance: 0
+  m_Distance: 27.508162
+  m_DampingRatio: 0
+  m_Frequency: 1
 --- !u!1 &7421023785815084756
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,7 +267,7 @@ MonoBehaviour:
   aliveRenderer: {fileID: 774670459}
   extraLengthAdded: 0
   extraLengthScaled: 0.5
-  tentacleHeadAnimation: {fileID: 7421023785509454281}
+  tentacleHeadTracker: {fileID: 7421023785509454281}
   tentaclePivotTracker: {fileID: 7421023787207932458}
   colorFoundPlayer: {r: 1, g: 0.9342736, b: 0, a: 1}
   colorEngaged: {r: 1, g: 0, b: 0, a: 1}
@@ -260,6 +281,7 @@ MonoBehaviour:
   engagedPlayerTimerEnd: 0.1
   engagedPlayerLineMin: 0.4
   engagedPlayerLineMax: 1
+  forceAppliedWhenKilled: 100
 --- !u!120 &7421023785830835085
 LineRenderer:
   m_ObjectHideFlags: 0

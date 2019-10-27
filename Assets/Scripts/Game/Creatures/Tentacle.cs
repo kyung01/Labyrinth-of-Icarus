@@ -13,6 +13,10 @@ public class Tentacle : EntityEnemy
 	float maximumLength;
 	public GameObject pivotObject;
 	DistanceJoint2D joint;
+	public float getTenatcleUnextendedLength()
+	{
+		return maximumLength;
+	}
 	public float getTentacleLength()
 	{
 		return maximumExtendLength + maximumLength;

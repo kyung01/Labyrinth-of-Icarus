@@ -16,7 +16,7 @@ public class TentacleRenderer : MonoBehaviour
 	float extraLengthScaled;
 	VerletRopeLineRenderer verletRopeRenderer;
 
-	public Rigidbody2D tentacleHeadAnimation;
+	public Rigidbody2D tentacleHeadTracker;
 	public Rigidbody2D tentaclePivotTracker;
 
 	[SerializeField]
@@ -42,6 +42,9 @@ public class TentacleRenderer : MonoBehaviour
 	[SerializeField]
 	float engagedPlayerLineMin, engagedPlayerLineMax;
 
+	[SerializeField]
+	float forceAppliedWhenKilled;
+
 	// Start is called before the first frame update
 	void Start()
     {
@@ -60,26 +63,32 @@ public class TentacleRenderer : MonoBehaviour
 	void hdlEntityKill(Entity entity)
 	{
 		Debug.Log("entity dead");
-		tentacleHeadAnimation.transform.position = verletRopeRenderer.ropeStart.position;
+		tentacleHeadTracker.transform.position = verletRopeRenderer.ropeStart.position;
 		tentaclePivotTracker.transform.position = verletRopeRenderer.ropeEnd.position;
-		verletRopeRenderer.ropeStart = tentacleHeadAnimation.transform;
+		verletRopeRenderer.ropeStart = tentacleHeadTracker.transform;
 		verletRopeRenderer.ropeEnd = tentaclePivotTracker.transform;
 
-		tentacleHeadAnimation.isKinematic = false;
-		aliveRenderer.defaultLineColor = Color.black;
-		aliveRenderer.highlightLineColor = Color.grey;
+		tentacleHeadTracker.isKinematic = false;
+		aliveRenderer.defaultLineColor = new Color(0.15f,0.15f,0.15f);
+		aliveRenderer.highlightLineColor = new Color(0.3f, 0.15f, 0.15f);
 		aliveRenderer.timeNeededToReachEnd = 10;
 
+		//add force as a "dead animation"
+		tentacleHeadTracker.isKinematic = false;
+		tentacleHeadTracker.GetComponent<SpringJoint2D>().distance = tentacle.getTenatcleUnextendedLength();
+		tentacleHeadTracker.GetComponent<SpringJoint2D>().enabled = true;
+		//tentacleHeadTracker.AddForce((this.tentaclePivotTracker.position - this.tentacleHeadTracker.position).normalized * forceAppliedWhenKilled, ForceMode2D.Impulse);
+
 		//remove all the events from the list
-		tentacle.evntKill.Add(hdlEntityKill);
-		tentacle.evntChangedState.Add(hdlTentacleChangedState);
+		tentacle.evntKill.Remove(hdlEntityKill);
+		tentacle.evntChangedState.Remove(hdlTentacleChangedState);
 
 	}
 	
     // Update is called once per frame
     void Update()
     {
-		if(tentacle.isActiveAndEnabled) tentacleHeadAnimation.transform.position = tentacle.transform.position;
+		if(tentacle.isActiveAndEnabled) tentacleHeadTracker.transform.position = tentacle.transform.position;
 		//tentaclePivotTracker.transform.position = tentacle.pivotObject.transform.position;
 
 	}

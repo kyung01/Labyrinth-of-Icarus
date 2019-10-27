@@ -34,11 +34,19 @@ public class AliveLineRenderer : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		timeElapsedToStart = Random.Range(0, 100.0f);
-		timeElapsedReachingEnd = Random.Range(0, 100.0f);
-		timeElapsedFinishingAnimation = Random.Range(0, 100.0f);
-
-		animationCycleIndex = Random.Range(0, 3);
+		int randomAnimationFrame = Random.Range(0, 3);
+		switch (randomAnimationFrame) {
+			case 0:
+				timeElapsedToStart = Random.Range(0, timeNeededToStart);
+				break;
+			case 1:
+				timeElapsedReachingEnd = Random.Range(0, timeNeededToReachEnd);
+				break;
+			case 2:
+				timeElapsedFinishingAnimation = Random.Range(0, timeNeededToFinish);
+				break;
+		}
+		animationCycleIndex = randomAnimationFrame;
 	}
 	float timeElapsed = 0;
 	// Update is called once per frame

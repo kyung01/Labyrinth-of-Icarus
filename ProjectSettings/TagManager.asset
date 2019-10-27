@@ -36,7 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Player
   - Bullet
   m_SortingLayers:
   - name: Default

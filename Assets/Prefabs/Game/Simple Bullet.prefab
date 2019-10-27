@@ -67,8 +67,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1974730703}
   - component: {fileID: 1974730704}
-  m_Layer: 0
-  m_Name: r
+  m_Layer: 31
+  m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

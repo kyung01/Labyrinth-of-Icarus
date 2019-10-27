@@ -49,12 +49,13 @@ public class EntityEnemy : AIEntity
 		if (dis.sqrMagnitude < detectRange * detectRange)
 		{
 			//range is close enough do the raycast testing
-			var rayTest = Physics2D.Raycast(this.transform.position, dis.normalized, 100, Layers.World);
-			if((Player.GetPlayerPosition().toVec2() - rayTest.point).sqrMagnitude < detectAccuracy* detectAccuracy)
+			var rayTest = Physics2D.Raycast(this.transform.position, dis.normalized, 100, Layers.WorldAndPlayer);
+			
+			if (rayTest.transform != null && rayTest.transform.tag == Tags.Player)
 			{
+
 				evntDetectedPlayer();
 				this.State = EntityState.FOUND_TARGET;
-
 			}
 			//detected the player
 		}
